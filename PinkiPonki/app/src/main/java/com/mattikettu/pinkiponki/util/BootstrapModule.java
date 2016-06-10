@@ -35,6 +35,7 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
 
 @Module(
         complete = false,
+        library = true,
 
         injects = {
                 //Inject all the classes that will be needing the singletons that are provided below.
