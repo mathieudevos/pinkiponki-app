@@ -46,51 +46,28 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
         <!-- Toolbar on top -->
-        <RelativeLayout
+        <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar"
+            android:background="@color/colorPrimary"
+            android:title="@string/app_name"/>
 
-            <!-- creates white bg -->
-            <android.support.v7.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:gravity="start|top"
-                />
-
-            <!-- creates the small gradient shape -->
-            <android.support.v7.widget.Toolbar
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/side_tool_bar"
-                android:gravity="start|top"
-                />
-
-            <!-- actual toolbar -->
-            <android.support.v7.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/toolbar"
-                android:background="@android:color/transparent"
-                android:title="@string/app_name"
-                android:gravity=""/>
-
-        </RelativeLayout>
-
-
-
-
-        <!-- FrameLayout: Container -->
-        <FrameLayout
+        <!-- SlidingTabLayout -->
+        <com.mattikettu.pinkiponki.ui.SlidingTabLayout
+            android:id="@+id/slidingTabLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/containerView">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Testing purpose."/>
-        </FrameLayout>
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+           />
+
+        <!-- Viewpager to figure out on what "page" you are -->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"/>
 
     </LinearLayout>
 

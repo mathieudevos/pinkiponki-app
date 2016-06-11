@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFF</color>
-    <color name="colorPrimaryDark">#BBB</color>
-    <color name="colorBackground">#DDD</color>
-    <color name="colorAccent">#FF0000</color>
+    <color name="colorPrimary">#F92</color>
+    <color name="colorPrimaryDark">#F50</color>
+    <color name="colorBackground">#FFF</color>
+    <color name="colorAccent">#F00</color>
+    <color name="tabsScrollColor">#921</color>
 
 
     <color name="black">#000000</color>

@@ -2,27 +2,29 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Home icon -->
-    <item
-        android:title="Home"
-        android:id="@+id/nav_item_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        />
+    <group android:id="@+id/nav_grp_1">
+        <item
+            android:title="Home"
+            android:id="@+id/nav_item_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            />
 
-    <!-- Profile icon -->
-    <item
-        android:title="Profile"
-        android:id="@+id/nav_item_profile"
-        android:icon="@drawable/ic_perm_identity_black_24dp"
-        />
+        <!-- Profile icon -->
+        <item
+            android:title="Profile"
+            android:id="@+id/nav_item_profile"
+            android:icon="@drawable/ic_perm_identity_black_24dp"
+            />
 
-    <!-- Groups -->
-    <item
-        android:title="Groups"
-        android:id="@+id/nav_item_club"
-        android:icon="@drawable/ic_group_work_black_24dp"
-        />
+        <!-- Groups -->
+        <item
+            android:title="Groups"
+            android:id="@+id/nav_item_club"
+            android:icon="@drawable/ic_group_work_black_24dp"
+            />
+    </group>
 
-    <group>
+    <group android:id="@+id/nav_grp_2">
         <!-- Settings -->
         <item
             android:title="Settings"
@@ -38,7 +40,7 @@
             />
     </group>
 
-    <group>
+    <group android:id="@+id/nav_grp_3">
         <item
             android:title="About"
             android:id="@+id/nav_item_about"
