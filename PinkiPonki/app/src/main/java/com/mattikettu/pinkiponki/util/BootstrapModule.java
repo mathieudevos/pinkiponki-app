@@ -41,7 +41,11 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
                 //Inject all the classes that will be needing the singletons that are provided below.
                 //It's magic.
 
+                //util
                 BootstrapApplication.class,
+                ToastCreator.class,
+
+                //networkapi
                 NetworkLogic.class,
                 CAservice.class,
                 CurrentUser.class,
