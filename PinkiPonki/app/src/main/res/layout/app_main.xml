@@ -19,6 +19,7 @@
             android:title="@string/app_name"/>
 
         <!-- SlidingTabLayout -->
+        <!-- play around with the height value -->
         <com.mattikettu.pinkiponki.ui.SlidingTabLayout
             android:id="@+id/slidingTabLayout"
             android:layout_width="match_parent"

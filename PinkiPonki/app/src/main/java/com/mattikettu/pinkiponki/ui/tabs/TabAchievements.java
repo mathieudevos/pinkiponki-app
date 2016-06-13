@@ -21,7 +21,7 @@ public class TabAchievements extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v =inflater.inflate(R.layout.tab_home,container,false);
+        View v =inflater.inflate(R.layout.tab_achievements,container,false);
         return v;
     }
 

@@ -31,11 +31,6 @@ public class ImagePagerAdapter extends FragmentPagerAdapter {
         return null;
     }
 
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return false;
-    }
-
     public int getDrawableID(int position){
         return Constants.slidingTabResID[position];
     }
@@ -44,8 +39,7 @@ public class ImagePagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position){
         switch (position) {
             case 0:
-
-                return new TabHome();
+                return TabHome.newInstance();
             case 1:
                 return new TabFriends();
             case 2:

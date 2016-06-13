@@ -27,6 +27,7 @@ import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.google.gson.Gson;
 import com.mattikettu.pinkiponki.networkapi.APIService;
+import com.mattikettu.pinkiponki.ui.tabs.TabHome;
 import com.squareup.otto.Bus;
 import com.mattikettu.pinkiponki.MainActivity;
 import com.mattikettu.pinkiponki.networkapi.CAservice;
@@ -40,6 +41,9 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
         injects = {
                 //Inject all the classes that will be needing the singletons that are provided below.
                 //It's magic.
+
+                //ui
+                TabHome.class,
 
                 //util
                 BootstrapApplication.class,
