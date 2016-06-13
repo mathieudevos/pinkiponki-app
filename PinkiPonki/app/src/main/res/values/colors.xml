@@ -7,7 +7,7 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#727272</color>
     <color name="colorAccent">#009688</color>
-    <color name="tabsScrollColor">#00b0b6</color>
+    <color name="tabsScrollColor">#ffffc107</color>
 
 
     <color name="black">#000000</color>
