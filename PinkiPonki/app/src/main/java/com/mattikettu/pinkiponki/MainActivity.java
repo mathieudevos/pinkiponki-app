@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
         SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.slidingTabLayout);
         viewPager.setAdapter(new ImagePagerAdapter(getFragmentManager()));
         slidingTabLayout.setViewPager(viewPager);
-
+        slidingTabLayout.setSelectedIndicatorColors(R.color.tabsScrollColor);
     }
 
     @Override

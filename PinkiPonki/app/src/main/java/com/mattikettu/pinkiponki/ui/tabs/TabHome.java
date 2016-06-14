@@ -2,6 +2,7 @@ package com.mattikettu.pinkiponki.ui.tabs;
 
 import android.app.Fragment;
 import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -50,9 +51,6 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
 
     private TabHomeAdapter getTabHomeAdapter(){
         if(tabHomeAdapter == null){
-            games.add(new GameObject());
-            games.add(new GameObject());
-            games.add(new GameObject());
             tabHomeAdapter = new TabHomeAdapter(getActivity(), R.layout.row_tabhome, games);
         }
         return tabHomeAdapter;
@@ -86,6 +84,10 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
         ListView lv = (ListView) getActivity().findViewById(R.id.tab_home_listview);
         lv.setAdapter(getTabHomeAdapter());
         lv.setOnItemClickListener(this);
+
+        View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, null, false);
+        lv.addFooterView(footerView);
+        lv.setEmptyView(getActivity().findViewById(R.id.empty_view));
     }
 
     @Override
