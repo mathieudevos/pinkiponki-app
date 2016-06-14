@@ -27,6 +27,7 @@ public class TabHomeAdapter extends ArrayAdapter<GameObject>{
     public TabHomeAdapter(Context ctx, int resource, List<GameObject> games){
         super(ctx, resource, games);
         context = ctx;
+        this.games = games;
         Log.d(TAG, TAG + " created.");
     }
 
@@ -36,9 +37,6 @@ public class TabHomeAdapter extends ArrayAdapter<GameObject>{
         if(v == null){
             v = LayoutInflater.from(context).inflate(R.layout.row_tabhome, parent, false);
         }
-
-        //Fill with data from games.get(position)
-        Log.d(TAG, "Added game on position: " + position);
 
         return v;
     }

@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/toolbar"
             android:background="@color/colorPrimary"
-            android:title="@string/app_name"/>
+            android:title="@string/app_name"
+            android:theme="@style/ToolbarStyle"/>
 
         <!-- SlidingTabLayout -->
         <!-- play around with the height value -->

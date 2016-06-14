@@ -48,6 +48,7 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
                 //util
                 BootstrapApplication.class,
                 ToastCreator.class,
+                SharedPreferenceManager.class,
 
                 //networkapi
                 NetworkLogic.class,
