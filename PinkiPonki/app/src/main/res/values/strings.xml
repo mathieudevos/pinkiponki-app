@@ -5,4 +5,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="welcome_button">Continue</string>
+    <string name="welcome_message_title">Welcome to PinkiPonki!</string>
+    <string name="welcome_message">Made specificially for keeping track of your games, rating, who went under the table and laughing at the losses of your friends. \n\nThis is the alpha test, so expect data to be wiped =(.\n\n- Matti Kettu </string>
 </resources>

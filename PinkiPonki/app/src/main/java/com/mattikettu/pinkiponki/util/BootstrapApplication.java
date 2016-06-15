@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
+import android.os.StrictMode;
 
 import com.mattikettu.pinkiponki.networkapi.CAservice;
 
@@ -36,6 +37,8 @@ public class BootstrapApplication extends Application{
         super.onCreate();
 
         instance = this;
+
+
 
         // Perform injection
         Injector.init(getRootModule(), this);

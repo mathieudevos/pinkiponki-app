@@ -7,6 +7,7 @@ import com.mattikettu.pinkiponki.objects.*;
 
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.http.*;
 
@@ -17,8 +18,12 @@ import retrofit2.http.*;
 
 public interface APIService {
 
+    // LOGIN & REGISTER
+    @POST("/login")
+    Call<Username> login(@Body LoginUser loginUser);
+
     // @GET statements
     @GET("/users/{username}")
-    public void getUser(@Path("username") String username, Callback<UserObject> userObjectCallback);
+    void getUser(@Path("username") String username, Callback<UserObject> userObjectCallback);
 
 }

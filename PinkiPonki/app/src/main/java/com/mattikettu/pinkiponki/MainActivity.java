@@ -1,5 +1,7 @@
 package com.mattikettu.pinkiponki;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import com.mattikettu.pinkiponki.ui.SlidingTabLayout;
 import com.mattikettu.pinkiponki.ui.ImagePagerAdapter;
 import com.mattikettu.pinkiponki.util.Injector;
+import com.mattikettu.pinkiponki.util.SharedPreferenceManager;
 import com.mattikettu.pinkiponki.util.ToastCreator;
 
 
@@ -27,11 +30,20 @@ public class MainActivity extends AppCompatActivity
     @Inject
     protected ToastCreator toastCreator;
 
+    @Inject
+    protected SharedPreferenceManager sharedPreferenceManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Injector.inject(this);
+
+        //Check if it is initial launch
+        if(sharedPreferenceManager.isInitialLaunch()){
+            Intent intent = new Intent(getApplication(), WelcomeActivity.class);
+            startActivity(intent);
+        }
 
         setContentView(R.layout.base_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

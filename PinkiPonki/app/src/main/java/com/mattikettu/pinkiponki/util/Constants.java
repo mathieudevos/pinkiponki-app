@@ -8,12 +8,12 @@ import com.mattikettu.pinkiponki.R;
 public final class Constants {
 
     // simple class for constants
-    public static final String sharedPreferenced = "PINKIPONKI_SHARED_PREF";
+    public static final String sharedPreferences = "PINKIPONKI_SHARED_PREF";
     public static final int[] slidingTabResID = {
             R.drawable.ic_home_black_24dp,
             R.drawable.ic_group_black_24dp,
             R.drawable.ic_group_work_black_24dp,
             R.drawable.ic_whatshot_black_24dp
     };
-
+    public static final String basepath = "http://ec2-52-58-165-57.eu-central-1.compute.amazonaws.com:9721";
 }

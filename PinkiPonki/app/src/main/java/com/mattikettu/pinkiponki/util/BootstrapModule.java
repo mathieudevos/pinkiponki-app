@@ -5,6 +5,7 @@ package com.mattikettu.pinkiponki.util;
  */
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.io.IOException;
 import java.net.CookieHandler;
@@ -26,6 +27,7 @@ import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.google.gson.Gson;
+import com.mattikettu.pinkiponki.LoginActivity;
 import com.mattikettu.pinkiponki.networkapi.APIService;
 import com.mattikettu.pinkiponki.ui.tabs.TabHome;
 import com.squareup.otto.Bus;
@@ -56,7 +58,8 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
                 CurrentUser.class,
 
                 //Acitivities
-                MainActivity.class
+                MainActivity.class,
+                LoginActivity.class
         }
 )
 
@@ -87,7 +90,7 @@ public class BootstrapModule {
         //});
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("ec2-52-58-165-57.eu-central-1.compute.amazonaws.com")
+                .baseUrl(Constants.basepath)
                 .client(okHttpClient)
                 .callbackExecutor(executor)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -103,6 +106,10 @@ public class BootstrapModule {
     @Provides
     @Singleton
     ToastCreator provideToastCreator(Bus bus){return new ToastCreator();}
+
+    @Provides
+    @Singleton
+    SharedPreferenceManager sharedPreferenceManager(Bus bus){ return new SharedPreferenceManager();}
     
     //// TODO: 10/06/2016 add databaseHelper (check which db to use) 
 
