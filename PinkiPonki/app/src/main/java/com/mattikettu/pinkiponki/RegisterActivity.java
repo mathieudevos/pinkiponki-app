@@ -11,31 +11,29 @@ import android.widget.TextView;
 
 import com.mattikettu.pinkiponki.util.Injector;
 
-//import java.util.regex.Pattern;
-
 import java.util.regex.Pattern;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.BindView;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "REGISTERACTIVITY";
 
-    @BindView(R.id.input_username_register)
+    @BindView(R.id.input_username)
     EditText _usernameText;
 
-    @BindView(R.id.input_email_register)
+    @BindView(R.id.input_email)
     EditText _emailText;
 
-    @BindView(R.id.input_password_register)
+    @BindView(R.id.input_password)
     EditText _passwordText;
 
-    @BindView(R.id.login_button_register)
-    Button login_button;
+    @BindView(R.id.register_button)
+    Button register_button;
 
-    @BindView(R.id.register_button_register)
-    TextView register_button;
+    @BindView(R.id.login_button)
+    TextView login_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -15,9 +15,6 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
 import com.mattikettu.pinkiponki.util.Injector;
 import com.mattikettu.pinkiponki.util.ToastCreator;
 
-
-import java.util.concurrent.CountDownLatch;
-
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
