@@ -3,8 +3,6 @@ package com.mattikettu.pinkiponki;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.SystemClock;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,10 +15,8 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
 import com.mattikettu.pinkiponki.util.Injector;
 import com.mattikettu.pinkiponki.util.ToastCreator;
 
-import org.w3c.dom.Text;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -31,8 +27,6 @@ import butterknife.BindView;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LOGINACTIVITY";
-    private boolean loginSuccess = false;
-    private CountDownLatch latch = new CountDownLatch(1);
     private ProgressDialog progressDialog;
     private long startTime;
     private static Context ctx;
@@ -44,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText _passwordText;
 
     @BindView(R.id.login_button)
-    protected Button login_button;
+    Button login_button;
 
     @BindView(R.id.register_button)
     TextView register_button;
@@ -118,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         login_button.setEnabled(true);
         Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
         startActivity(intent);
+
     }
 
     private void onLoginFailure(){

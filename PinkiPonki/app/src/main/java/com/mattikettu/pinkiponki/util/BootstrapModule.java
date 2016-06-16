@@ -28,6 +28,7 @@ import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.google.gson.Gson;
 import com.mattikettu.pinkiponki.LoginActivity;
+import com.mattikettu.pinkiponki.RegisterActivity;
 import com.mattikettu.pinkiponki.networkapi.APIService;
 import com.mattikettu.pinkiponki.ui.tabs.TabHome;
 import com.squareup.otto.Bus;
@@ -59,7 +60,8 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
 
                 //Acitivities
                 MainActivity.class,
-                LoginActivity.class
+                LoginActivity.class,
+                RegisterActivity.class
         }
 )
 

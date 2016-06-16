@@ -32,15 +32,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".WelcomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.Dark" />
+
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/AppTheme.Dark"/>
         <!-- End of activities -->
 
-        <activity android:name=".RegisterActivity"></activity>
+
     </application>
 
 </manifest>
