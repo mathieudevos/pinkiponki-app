@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="56dp"
+        android:paddingTop="24dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
         android:orientation="vertical">
@@ -21,6 +21,17 @@
             android:textAllCaps="true"
             android:textStyle="bold"
             android:textSize="56sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
 
         <!-- username -->
         <android.support.design.widget.TextInputLayout
@@ -82,7 +93,7 @@
             android:layout_marginBottom="24dp"
             android:text="Already a member? Login"
             android:gravity="center"
-            android:textSize="16dip"/>
+            android:textSize="16sp"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -95,7 +106,7 @@
             android:layout_marginBottom="24dp"
             android:text="Additional details can be filled out in the profile page"
             android:gravity="center"
-            android:textSize="16dip"/>
+            android:textSize="12sp"/>
         </LinearLayout>
 
     </LinearLayout>
