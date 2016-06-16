@@ -4,15 +4,13 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import com.mattikettu.pinkiponki.LoginActivity;
-import com.mattikettu.pinkiponki.objects.LoginUser;
+import com.mattikettu.pinkiponki.RegisterActivity;
+import com.mattikettu.pinkiponki.objects.UserObject;
 import com.mattikettu.pinkiponki.objects.Username;
 import com.mattikettu.pinkiponki.util.Injector;
 
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -44,14 +42,15 @@ public class NetworkLogic {
 
     public void login(String username, String password, final LoginActivity loginActivity){
         String hash_pw = sha256(password);
-        LoginUser loginUser = new LoginUser(username, password);
+        UserObject userObject = new UserObject();
+        userObject.setUsername(username);
+        userObject.setPassword(hash_pw);
 
-        Call<Username> call = apiService.login(loginUser);
-        Log.d(TAG, call.toString());
+        Call<Username> call = apiService.login(userObject);
         call.enqueue(new Callback<Username>() {
            @Override
            public void onResponse(Call<Username> call, Response<Username> response) {
-               Log.d(TAG, "Responsecode : " + response.code());
+               Log.d(TAG, "Responsecode: " + response.code());
                if(response.code()==200){
                    loginActivity.loginOK();
                } else {
@@ -65,6 +64,33 @@ public class NetworkLogic {
                loginActivity.loginFail();
            }
        });
+    }
+
+    public void register(String username, String email,String password, final RegisterActivity registerActivity){
+        String hash_pw = sha256(password);
+        UserObject userObject = new UserObject();
+        userObject.setUsername(username);
+        userObject.setEmail(email);
+        userObject.setPassword(hash_pw);
+
+        Call<Username> call = apiService.register(userObject);
+        call.enqueue(new Callback<Username>() {
+            @Override
+            public void onResponse(Call<Username> call, Response<Username> response) {
+                Log.d(TAG, "Responsecode: " + response.code());
+                if(response.code() == 200){
+                    registerActivity.registerOK();
+                }else{
+                    registerActivity.registerFail();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Username> call, Throwable t) {
+                Log.d(TAG, "Failed: " + t.getMessage());
+                registerActivity.registerFail();
+            }
+        });
     }
 
     private String sha256(String input){

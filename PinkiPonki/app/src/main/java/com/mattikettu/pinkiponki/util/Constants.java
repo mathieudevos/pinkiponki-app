@@ -16,4 +16,7 @@ public final class Constants {
             R.drawable.ic_whatshot_black_24dp
     };
     public static final String basepath = "http://ec2-52-58-165-57.eu-central-1.compute.amazonaws.com:9721";
+
+    public static final String username_pattern = "^[a-zA-Z0-9]{4,20}$";
+    public static final String password_pattern = "^[a-zA-Z0-9@-_^!?+-/*.,:;<>]{8,32}$";
 }

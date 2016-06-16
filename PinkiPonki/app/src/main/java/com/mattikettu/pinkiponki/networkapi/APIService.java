@@ -20,7 +20,10 @@ public interface APIService {
 
     // LOGIN & REGISTER
     @POST("/login")
-    Call<Username> login(@Body LoginUser loginUser);
+    Call<Username> login(@Body UserObject userObject);
+
+    @POST("/register")
+    Call<Username> register(@Body UserObject userObject);
 
     // @GET statements
     @GET("/users/{username}")
