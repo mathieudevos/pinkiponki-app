@@ -51,8 +51,12 @@ public class NetworkLogic {
         call.enqueue(new Callback<Username>() {
            @Override
            public void onResponse(Call<Username> call, Response<Username> response) {
-               Log.d(TAG, "Response: " + response.body().getUsername());
-               loginActivity.loginOK();
+               Log.d(TAG, "Responsecode : " + response.code());
+               if(response.code()==200){
+                   loginActivity.loginOK();
+               } else {
+                   loginActivity.loginFail();
+               }
            }
 
            @Override

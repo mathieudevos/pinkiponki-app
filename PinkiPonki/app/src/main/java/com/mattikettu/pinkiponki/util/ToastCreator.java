@@ -29,4 +29,12 @@ public class ToastCreator {
     public void showToastLong(String text){
         Toast.makeText(context, text, Toast.LENGTH_LONG).show();
     }
+
+    public void showToastShort(Context ctx, String text){
+        Toast.makeText(ctx, text,Toast.LENGTH_SHORT).show();
+    }
+
+    public void showToastLong(Context ctx, String text){
+        Toast.makeText(ctx, text, Toast.LENGTH_LONG).show();
+    }
 }
