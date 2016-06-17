@@ -3,6 +3,9 @@ package com.mattikettu.pinkiponki;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private long startTime;
     private static Context ctx;
+    private Handler handler;
 
     @BindView(R.id.input_username)
     EditText _usernameText;
@@ -55,6 +59,22 @@ public class LoginActivity extends AppCompatActivity {
         Injector.inject(this);
 
         ctx = this;
+        handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg){
+                switch (msg.what){
+                    case 200:
+                        //Got the good response
+                        loginOK();
+                        break;
+                    case 401:
+                        loginFail();
+                        break;
+                    default:
+                        loginFail();
+                }
+            }
+        };
 
         login_button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -100,20 +120,20 @@ public class LoginActivity extends AppCompatActivity {
         //here we handle the NWL section.
 
         startTime = System.currentTimeMillis();
-        NWL.login(username, password, this); //This runs async to UI anyway.
+        NWL.login(username, password, handler); //This runs async to UI anyway.
     }
 
 
     private void onLoginSuccess(){
-        //toastCreator.showToastLong(ctx, "Login success.");
-        //login_button.setEnabled(true);
-        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-        startActivity(intent);
+        toastCreator.showToastLong(ctx, "Login success.");
+        login_button.setEnabled(true);
+        //Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+        //startActivity(intent);
 
     }
 
     private void onLoginFailure(){
-        //toastCreator.showToastLong("Login failed.");
+        toastCreator.showToastLong("Login failed.");
         login_button.setEnabled(true);
     }
 
@@ -136,13 +156,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void loginOK() {
         progressDialog.dismiss();
-        onLoginSuccess();
         Log.d(TAG, "Total time: " + (System.currentTimeMillis()-startTime));
+        onLoginSuccess();
     }
 
     public void loginFail() {
         progressDialog.dismiss();
-        onLoginFailure();
         Log.d(TAG, "Total time: " + (System.currentTimeMillis()-startTime));
+        onLoginFailure();
     }
 }

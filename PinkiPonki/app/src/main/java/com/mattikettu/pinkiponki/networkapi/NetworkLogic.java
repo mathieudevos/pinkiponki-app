@@ -1,5 +1,7 @@
 package com.mattikettu.pinkiponki.networkapi;
 
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -40,7 +42,7 @@ public class NetworkLogic {
         StrictMode.setThreadPolicy(policy);
     }
 
-    public void login(String username, String password, final LoginActivity loginActivity){
+    public void login(String username, String password, final Handler handler){
         String hash_pw = sha256(password);
         UserObject userObject = new UserObject();
         userObject.setUsername(username);
@@ -51,17 +53,16 @@ public class NetworkLogic {
            @Override
            public void onResponse(Call<Username> call, Response<Username> response) {
                Log.d(TAG, "Responsecode: " + response.code());
-               if(response.code()==200){
-                   loginActivity.loginOK();
-               } else {
-                   loginActivity.loginFail();
-               }
+               Message msg = handler.obtainMessage(response.code());
+               msg.sendToTarget();
+
            }
 
            @Override
            public void onFailure(Call<Username> call, Throwable t) {
                Log.d(TAG, "Failed: " + t.getMessage());
-               loginActivity.loginFail();
+               Message msg = handler.obtainMessage(0); //0 for errors
+               msg.sendToTarget();
            }
        });
     }
