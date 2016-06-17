@@ -26,7 +26,13 @@ public interface APIService {
     Call<Username> register(@Body UserObject userObject);
 
     // @GET statements
-    @GET("/users/{username}")
-    void getUser(@Path("username") String username, Callback<UserObject> userObjectCallback);
 
+    // User related
+    @GET("/users/{username}")
+    Call<UserObject> getUser(@Path("username") String username);
+
+
+    // Game related
+    @GET("/games_all/{amount}")
+    Call<List<GameObject>> getGames(@Path("amount") int amount);
 }

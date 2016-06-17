@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.mattikettu.pinkiponki.networkapi.CurrentUser;
+import com.mattikettu.pinkiponki.objects.Username;
+
 import javax.inject.Inject;
 
 /**
@@ -14,6 +17,9 @@ public class SharedPreferenceManager {
     @Inject
     protected Context appContext;
 
+    @Inject
+    protected CurrentUser currentUser;
+
     private static final String TAG = "SHAREDPREFERENCEMANAGER";
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -23,6 +29,8 @@ public class SharedPreferenceManager {
         Injector.inject(this);
         Log.d(TAG, TAG + " created, singleton usage.");
         sharedPreferences = appContext.getSharedPreferences(Constants.sharedPreferences, Context.MODE_PRIVATE);
+
+
         editor = sharedPreferences.edit();
     }
 
@@ -31,7 +39,24 @@ public class SharedPreferenceManager {
     }
 
     public void setInitialLaunchDone(){
+        Log.d(TAG, "Initial launch is done, no longer displaying welcome screen.");
         editor.putBoolean("initialLaunch", false);
         editor.commit();
+    }
+
+    public void setCurrentUsername(Username username){
+        Log.d(TAG, "CurrentUsername set: " + username.getUsername());
+        editor.putString("CurrentUsername", username.getUsername());
+        editor.commit();
+    }
+
+    public String getCurrentUsername(){
+        Log.d(TAG, "CurrentUsername get: " + sharedPreferences.getString("CurrentUsername", ""));
+        return sharedPreferences.getString("CurrentUsername", "");
+    }
+
+    public int getDefaultGameAmount(){
+        Log.d(TAG, "Get default game amount: " + sharedPreferences.getInt("defaultGameAmount", 20));
+        return sharedPreferences.getInt("defaultGameAmount", 20);
     }
 }

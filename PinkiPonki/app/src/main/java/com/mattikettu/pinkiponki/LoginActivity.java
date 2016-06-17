@@ -15,7 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
+import com.mattikettu.pinkiponki.objects.Username;
 import com.mattikettu.pinkiponki.util.Injector;
+import com.mattikettu.pinkiponki.util.SharedPreferenceManager;
 import com.mattikettu.pinkiponki.util.ToastCreator;
 
 import javax.inject.Inject;
@@ -29,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LOGINACTIVITY";
     private ProgressDialog progressDialog;
     private long startTime;
-    private static Context ctx;
     private Handler handler;
 
     @BindView(R.id.input_username)
@@ -50,6 +51,9 @@ public class LoginActivity extends AppCompatActivity {
     @Inject
     protected NetworkLogic NWL;
 
+    @Inject
+    protected SharedPreferenceManager sharedPreferenceManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,15 +61,13 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         Injector.inject(this);
-
-        ctx = this;
         handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg){
                 switch (msg.what){
                     case 200:
                         //Got the good response
-                        loginOK();
+                        loginOK((Username) msg.obj);
                         break;
                     case 401:
                         loginFail();
@@ -103,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "Attempting login");
 
         if(!validate()){
-            onLoginFailure();
+            loginFail();
             return;
         }
 
@@ -123,20 +125,6 @@ public class LoginActivity extends AppCompatActivity {
         NWL.login(username, password, handler); //This runs async to UI anyway.
     }
 
-
-    private void onLoginSuccess(){
-        toastCreator.showToastLong(ctx, "Login success.");
-        login_button.setEnabled(true);
-        //Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-        //startActivity(intent);
-
-    }
-
-    private void onLoginFailure(){
-        toastCreator.showToastLong("Login failed.");
-        login_button.setEnabled(true);
-    }
-
     private boolean validate(){
         boolean valid = true;
 
@@ -154,15 +142,22 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    public void loginOK() {
+    public void loginOK(Username username) {
         progressDialog.dismiss();
         Log.d(TAG, "Total time: " + (System.currentTimeMillis()-startTime));
-        onLoginSuccess();
+        toastCreator.showToastLong("Login success.");
+        login_button.setEnabled(true);
+        sharedPreferenceManager.setCurrentUsername(username);
+        Intent intent = new Intent(getApplication(), MainActivity.class);
+        startActivity(intent);
     }
 
     public void loginFail() {
-        progressDialog.dismiss();
-        Log.d(TAG, "Total time: " + (System.currentTimeMillis()-startTime));
-        onLoginFailure();
+        if(progressDialog.isShowing()){
+            progressDialog.dismiss();
+            Log.d(TAG, "Total time: " + (System.currentTimeMillis()-startTime));
+        }
+        toastCreator.showToastLong("Login failed.");
+        login_button.setEnabled(true);
     }
 }

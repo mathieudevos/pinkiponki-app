@@ -7,12 +7,14 @@ import android.util.Log;
 
 import com.mattikettu.pinkiponki.LoginActivity;
 import com.mattikettu.pinkiponki.RegisterActivity;
+import com.mattikettu.pinkiponki.objects.GameObject;
 import com.mattikettu.pinkiponki.objects.UserObject;
 import com.mattikettu.pinkiponki.objects.Username;
 import com.mattikettu.pinkiponki.util.Injector;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -53,9 +55,13 @@ public class NetworkLogic {
            @Override
            public void onResponse(Call<Username> call, Response<Username> response) {
                Log.d(TAG, "Responsecode: " + response.code());
-               Message msg = handler.obtainMessage(response.code());
+               Message msg;
+               if(response.code()==200){
+                   msg = handler.obtainMessage(response.code(), response.body());
+               }else{
+                   msg = handler.obtainMessage(response.code());
+               }
                msg.sendToTarget();
-
            }
 
            @Override
@@ -67,7 +73,7 @@ public class NetworkLogic {
        });
     }
 
-    public void register(String username, String email,String password, final RegisterActivity registerActivity){
+    public void register(String username, String email,String password, final Handler handler){
         String hash_pw = sha256(password);
         UserObject userObject = new UserObject();
         userObject.setUsername(username);
@@ -79,19 +85,47 @@ public class NetworkLogic {
             @Override
             public void onResponse(Call<Username> call, Response<Username> response) {
                 Log.d(TAG, "Responsecode: " + response.code());
-                if(response.code() == 200){
-                    registerActivity.registerOK();
-                }else{
-                    registerActivity.registerFail();
+                Message msg;
+                if(response.code()==200){
+                    msg = handler.obtainMessage(response.code(), response.body());
+                } else {
+                    msg = handler.obtainMessage(response.code());
                 }
+                msg.sendToTarget();
             }
 
             @Override
             public void onFailure(Call<Username> call, Throwable t) {
                 Log.d(TAG, "Failed: " + t.getMessage());
-                registerActivity.registerFail();
+                Message msg = handler.obtainMessage(0); //0 for errors
+                msg.sendToTarget();
             }
         });
+    }
+
+    public void getGames(int amount, final Handler handler){
+        Call<List<GameObject>> call = apiService.getGames(amount);
+        call.enqueue(new Callback<List<GameObject>>() {
+            @Override
+            public void onResponse(Call<List<GameObject>> call, Response<List<GameObject>> response) {
+                Log.d(TAG, "Responsecode: " + response.code());
+                Message msg;
+                if(response.code()==200){
+                    msg = handler.obtainMessage(response.code(), response.body());
+                } else {
+                    msg = handler.obtainMessage(response.code());
+                }
+                msg.sendToTarget();
+            }
+
+            @Override
+            public void onFailure(Call<List<GameObject>> call, Throwable t) {
+                Log.d(TAG, "Failed: " + t.getMessage());
+                Message msg = handler.obtainMessage(0); //0 for errors
+                msg.sendToTarget();
+            }
+        });
+
     }
 
     private String sha256(String input){

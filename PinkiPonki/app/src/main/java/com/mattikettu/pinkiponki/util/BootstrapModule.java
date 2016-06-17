@@ -29,6 +29,7 @@ import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersisto
 import com.google.gson.Gson;
 import com.mattikettu.pinkiponki.LoginActivity;
 import com.mattikettu.pinkiponki.RegisterActivity;
+import com.mattikettu.pinkiponki.WelcomeActivity;
 import com.mattikettu.pinkiponki.networkapi.APIService;
 import com.mattikettu.pinkiponki.ui.tabs.TabHome;
 import com.squareup.otto.Bus;
@@ -61,7 +62,8 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
                 //Acitivities
                 MainActivity.class,
                 LoginActivity.class,
-                RegisterActivity.class
+                RegisterActivity.class,
+                WelcomeActivity.class
         }
 )
 
@@ -82,6 +84,7 @@ public class BootstrapModule {
 
         CookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
         OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
+
 
         //Interceptor, in case we need it
         //okHttpClient.interceptors().add(new Interceptor() {

@@ -45,6 +45,12 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
 
+        //Check if we have a current user
+        if(sharedPreferenceManager.getCurrentUsername().isEmpty()){
+            Intent intent = new Intent(getApplication(), LoginActivity.class);
+            startActivity(intent);
+        }
+
         setContentView(R.layout.base_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
