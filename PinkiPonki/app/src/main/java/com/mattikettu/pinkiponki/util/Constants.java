@@ -13,7 +13,7 @@ public final class Constants {
             R.drawable.ic_home_black_24dp,
             R.drawable.ic_group_black_24dp,
             R.drawable.ic_group_work_black_24dp,
-            R.drawable.ic_whatshot_black_24dp
+            R.drawable.trophy
     };
     public static final String basepath = "http://ec2-52-58-165-57.eu-central-1.compute.amazonaws.com:9721";
 

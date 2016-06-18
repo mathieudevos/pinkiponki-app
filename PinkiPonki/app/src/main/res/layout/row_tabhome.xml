@@ -2,19 +2,143 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_height="100dip"
     android:textDirection="ltr"
     android:layoutDirection="ltr"
     android:gravity="center_horizontal"
-    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-    android:minHeight="?android:attr/listPreferredItemHeight">
+    android:minHeight="100dip"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    >
 
+    <!-- Players -->
+    <TextView
+        android:id="@+id/teamA_player1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Error"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/colorPrimaryText"
+        android:layout_marginTop="20dp"/>
+
+    <ImageView
+        android:id="@+id/a1_verify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_account_check"
+        android:layout_alignTop="@+id/teamA_player1"
+        android:layout_alignBottom="@+id/teamA_player1"
+        android:layout_toEndOf="@+id/teamA_player1"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:id="@+id/teamA_player2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Error"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/colorPrimaryText"
+        android:layout_marginBottom="20dp"/>
+
+    <ImageView
+        android:id="@+id/a2_verify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_account_check"
+        android:layout_alignTop="@+id/teamA_player2"
+        android:layout_alignBottom="@+id/teamA_player2"
+        android:layout_toEndOf="@+id/teamA_player2"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:id="@+id/teamB_player1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Error"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/colorPrimaryText"
+        android:layout_marginTop="20dp"/>
+
+    <ImageView
+        android:id="@+id/b1_verify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_account_check"
+        android:layout_alignTop="@+id/teamB_player1"
+        android:layout_alignBottom="@+id/teamB_player1"
+        android:layout_toStartOf="@+id/teamB_player1"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:id="@+id/teamB_player2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Error"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/colorPrimaryText"
+        android:layout_marginBottom="20dp"/>
+
+    <ImageView
+        android:id="@+id/b2_verify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_account_check"
+        android:layout_alignTop="@+id/teamB_player2"
+        android:layout_alignBottom="@+id/teamB_player2"
+        android:layout_toStartOf="@+id/teamB_player2"
+        android:visibility="invisible"
+        />
+
+    <!-- symbols in the centre -->
+    <ImageView
+        android:id="@+id/centerIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_settings_ethernet_black_24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <!-- scores -->
+    <TextView
+        android:id="@+id/teamA_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="60sp"
+        android:text="-1"
+        android:layout_toStartOf="@+id/centerIcon"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="sans-serif-smallcaps" />
+
+    <TextView
+        android:id="@+id/teamB_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="60sp"
+        android:text="-1"
+        android:layout_toEndOf="@+id/centerIcon"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:fontFamily="sans-serif-smallcaps" />
+
+    <!-- timestamp -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test."
+        android:textStyle="italic"
+        android:text="23:59:59 (+3) 26.09.1989"
+        android:id="@+id/timestamp"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_alignParentBottom="true"
+        android:textSize="10sp"/>
 
 </RelativeLayout>

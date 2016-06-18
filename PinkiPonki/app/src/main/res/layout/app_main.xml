@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/toolbar"
             android:background="@color/colorPrimary"
+            android:titleTextAppearance="@style/Base.TextAppearance.AppCompat.Title"
             android:title="@string/app_name"
             android:theme="@style/ToolbarStyle"/>
 

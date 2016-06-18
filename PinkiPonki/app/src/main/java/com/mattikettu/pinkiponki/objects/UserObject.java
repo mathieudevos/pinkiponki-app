@@ -13,17 +13,27 @@ public class UserObject {
 
     String email;
 
-    String firstname;
+    String firstName;
 
-    String lastname;
+    String lastName;
 
     String about;
 
     int rating;
 
+    int maxRating;
+
+    ArrayList<String> friends;
+
     ArrayList<String> clubs;
 
     ArrayList<String> games;
+
+    ArrayList<String> friendsTimeline;
+
+    String created;
+
+    String lastSeen;
 
     public String getUsername() {
         return username;
@@ -47,22 +57,6 @@ public class UserObject {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
     }
 
     public String getAbout() {
@@ -95,5 +89,61 @@ public class UserObject {
 
     public void setGames(ArrayList<String> games) {
         this.games = games;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public int getMaxRating() {
+        return maxRating;
+    }
+
+    public void setMaxRating(int maxRating) {
+        this.maxRating = maxRating;
+    }
+
+    public ArrayList<String> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(ArrayList<String> friends) {
+        this.friends = friends;
+    }
+
+    public ArrayList<String> getFriendsTimeline() {
+        return friendsTimeline;
+    }
+
+    public void setFriendsTimeline(ArrayList<String> friendsTimeline) {
+        this.friendsTimeline = friendsTimeline;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public String getLastSeen() {
+        return lastSeen;
+    }
+
+    public void setLastSeen(String lastSeen) {
+        this.lastSeen = lastSeen;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 }
