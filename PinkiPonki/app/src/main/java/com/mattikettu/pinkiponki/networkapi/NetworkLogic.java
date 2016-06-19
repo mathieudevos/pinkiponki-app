@@ -103,6 +103,30 @@ public class NetworkLogic {
         });
     }
 
+    public void getUser(String username, final Handler handler){
+        Call<UserObject> call = apiService.getUser(username);
+        call.enqueue(new Callback<UserObject>() {
+            @Override
+            public void onResponse(Call<UserObject> call, Response<UserObject> response) {
+                Log.d(TAG, "Responsecode: " + response.code());
+                Message msg;
+                if(response.code()==200){
+                    msg = handler.obtainMessage(response.code(), 1, 0, response.body());
+                } else {
+                    msg = handler.obtainMessage(response.code());
+                }
+                msg.sendToTarget();
+            }
+
+            @Override
+            public void onFailure(Call<UserObject> call, Throwable t) {
+                Log.d(TAG, "Failed: " + t.getMessage());
+                Message msg = handler.obtainMessage(0); //0 for errors
+                msg.sendToTarget();
+            }
+        });
+    }
+
     public void getGames(int amount, final Handler handler){
         Call<List<GameObject>> call = apiService.getGames(amount);
         call.enqueue(new Callback<List<GameObject>>() {
@@ -111,7 +135,7 @@ public class NetworkLogic {
                 Log.d(TAG, "Responsecode: " + response.code());
                 Message msg;
                 if(response.code()==200){
-                    msg = handler.obtainMessage(response.code(), response.body());
+                    msg = handler.obtainMessage(response.code(), 2, 0, response.body());
                 } else {
                     msg = handler.obtainMessage(response.code());
                 }
@@ -128,6 +152,33 @@ public class NetworkLogic {
 
     }
 
+    public void getUsernames(final Handler handler){
+        Call<List<String>> call = apiService.getUsernames();
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                Log.d(TAG, "Responsecode: " + response.code());
+                Message msg;
+                if(response.code()==200){
+                    msg = handler.obtainMessage(response.code(), 3, 0, response.body());
+                } else {
+                    msg = handler.obtainMessage(response.code());
+                }
+                msg.sendToTarget();
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Log.d(TAG, "Failed: " + t.getMessage());
+                Message msg = handler.obtainMessage(0); //0 for errors
+                msg.sendToTarget();
+            }
+        });
+    }
+
+
+
+    // gneral usage
     private String sha256(String input){
         String output = "";
         try {

@@ -31,6 +31,10 @@ public interface APIService {
     @GET("/users/{username}")
     Call<UserObject> getUser(@Path("username") String username);
 
+    // Usernames
+    @GET("/usernames")
+    Call<List<String>> getUsernames();
+
 
     // Game related
     @GET("/games_all/{amount}")

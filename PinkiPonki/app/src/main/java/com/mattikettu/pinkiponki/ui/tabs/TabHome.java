@@ -1,30 +1,30 @@
 package com.mattikettu.pinkiponki.ui.tabs;
 
 import android.app.Fragment;
-import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
 import com.mattikettu.pinkiponki.R;
+import com.mattikettu.pinkiponki.networkapi.CurrentUser;
 import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
 import com.mattikettu.pinkiponki.objects.GameObject;
+import com.mattikettu.pinkiponki.objects.UserObject;
 import com.mattikettu.pinkiponki.util.Injector;
 import com.mattikettu.pinkiponki.util.SharedPreferenceManager;
 import com.mattikettu.pinkiponki.util.ToastCreator;
+import com.mattikettu.pinkiponki.util.UsernamesList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +49,12 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
     protected NetworkLogic NWL;
 
     @Inject
+    protected CurrentUser currentUser;
+
+    @Inject
+    protected UsernamesList usernamesList;
+
+    @Inject
     protected SharedPreferenceManager sharedPreferenceManager;
 
     private TabHomeAdapter tabHomeAdapter = null;
@@ -58,6 +64,9 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
     private Handler handler;
     private ProgressDialog progressDialog;
     private View footerView;
+
+    private String pdialogMsg = "Acquiring information...";
+    private int currentDone = 0;
 
     public static TabHome newInstance(){
         TabHome tabHome = new TabHome();
@@ -88,11 +97,26 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
             public void handleMessage(Message msg){
                 switch (msg.what){
                     case 200:
-                        //Got the good response
-                        updateForGames((List<GameObject>) msg.obj);
+                        //Got the good response, now check arg1 for what it is.
+                        switch (msg.arg1){
+                            case 1:
+                                //We got our user
+                                updateForCurrentUser((UserObject) msg.obj);
+                                break;
+                            case 2:
+                                //We got all the games
+                                updateForGames((List<GameObject>) msg.obj);
+                                break;
+                            case 3:
+                                //We got the usernames list
+                                updateForUsernames((List<String>) msg.obj);
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     default:
-                        gamesUpdateFail();
+                        failOccurred();
                 }
             }
         };
@@ -109,6 +133,9 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
                 //        .setAction("Action", null).show();
             }
         });
+
+        loadEverything();
+
         return v;
     }
 
@@ -124,8 +151,6 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
         lv.setEmptyView(getActivity().findViewById(R.id.empty_view));
 
         lv.setAdapter(getTabHomeAdapter());
-
-        loadAllGames();
     }
 
     @Override
@@ -133,32 +158,78 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
         toastCreator.showToastLong("You clicked item: " + position);
     }
 
-    public void updateForGames(List<GameObject> games){
+    private void loadEverything(){
+        progressDialog = new ProgressDialog(getActivity(), R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(pdialogMsg);
+        progressDialog.show();
+        loadUser();
+        loadAllGames();
+        loadAllUsernames();
+    }
+
+    private void failOccurred(){
         if(progressDialog.isShowing()){
             progressDialog.dismiss();
         }
+        toastCreator.showToastLong("Acquiring info failed.");
+    }
+
+    private void updateForGames(List<GameObject> games){
         this.games = games;
+        pdialogMsg += "\nGames loaded.";
+        if(progressDialog.isShowing()){
+            progressDialog.setMessage(pdialogMsg);
+        }
+        checkedUpdates();
+    }
+
+    private void updateForCurrentUser(UserObject userObject){
+        currentUser.fullUpdate(userObject);
+        pdialogMsg += "\n" + userObject.getUsername() + " loaded.";
+        if(progressDialog.isShowing()){
+            progressDialog.setMessage(pdialogMsg);
+        }
+        checkedUpdates();
+    }
+
+    private void updateForUsernames(List<String> usernames){
+        usernamesList.fullUpdate(usernames);
+        pdialogMsg += "\nUsernames loaded.";
+        if(progressDialog.isShowing()){
+            progressDialog.setMessage(pdialogMsg);
+        }
+        checkedUpdates();
+    }
+
+    private void loadUser(){
+        NWL.getUser(sharedPreferenceManager.getCurrentUsername(), handler);
+    }
+
+    private void loadAllGames(){
+        NWL.getGames(sharedPreferenceManager.getDefaultGameAmount(), handler);
+    }
+
+    private void loadAllUsernames(){
+        NWL.getUsernames(handler);
+    }
+
+    private void checkedUpdates(){
+        currentDone += 1;
+        if(currentDone == 3){
+            allUpdatesFinished();
+        }
+    }
+
+    private void allUpdatesFinished(){
+        if(progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
         if(lv!=null || games.size()>0){
             ((TabHomeAdapter) ((HeaderViewListAdapter) lv.getAdapter()).getWrappedAdapter()).clear();
             ((TabHomeAdapter) ((HeaderViewListAdapter) lv.getAdapter()).getWrappedAdapter()).addAll(games);
             ((TabHomeAdapter) ((HeaderViewListAdapter) lv.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
-            //lv.invalidateViews();
         }
-    }
-
-    private void gamesUpdateFail(){
-        if(progressDialog.isShowing()){
-            progressDialog.dismiss();
-        }
-        toastCreator.showToastLong("Updating games failed.");
-    }
-
-    private void loadAllGames(){
-        progressDialog = new ProgressDialog(getActivity(), R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Acquiring games...");
-        progressDialog.show();
-        NWL.getGames(sharedPreferenceManager.getDefaultGameAmount(), handler);
     }
 
 }

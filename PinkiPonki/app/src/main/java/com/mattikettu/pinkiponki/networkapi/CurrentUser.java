@@ -1,9 +1,43 @@
 package com.mattikettu.pinkiponki.networkapi;
 
+import android.util.Log;
+
 import com.mattikettu.pinkiponki.objects.UserObject;
+import com.mattikettu.pinkiponki.util.Injector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mathieu on 10/06/2016.
  */
 public class CurrentUser extends UserObject {
+
+    private static final String TAG = "CURRENTUSER";
+    private List<String> clubs = new ArrayList<>();
+    private List<String> friends = new ArrayList<>();
+    private List<String> friendsTimeline = new ArrayList<>();
+    private List<String> games = new ArrayList<>();
+
+    public CurrentUser(){
+        Log.d(TAG, TAG + " created, use as singleton");
+        Injector.inject(this);
+    }
+
+    public void fullUpdate(UserObject user){
+        this.setUsername(user.getUsername());
+        this.setFirstName(user.getFirstName());
+        this.setLastName(user.getLastName());
+        this.setAbout(user.getAbout());
+        this.setEmail(user.getEmail());
+        clubs.addAll(user.getClubs());
+        this.setCreated(user.getCreated());
+        friends.addAll(user.getFriends());
+        friendsTimeline.addAll(user.getFriendsTimeline());
+        this.setLastSeen(user.getLastSeen());
+        games.addAll(user.getGames());
+        this.setMaxRating(user.getMaxRating());
+        this.setRating(user.getRating());
+        this.setPassword("Suck da dickah");
+    }
 }

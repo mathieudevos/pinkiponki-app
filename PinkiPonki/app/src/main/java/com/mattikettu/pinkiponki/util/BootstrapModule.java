@@ -20,6 +20,7 @@ import okhttp3.CookieJar;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -53,6 +54,7 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
                 BootstrapApplication.class,
                 ToastCreator.class,
                 SharedPreferenceManager.class,
+                UsernamesList.class,
 
                 //networkapi
                 NetworkLogic.class,
@@ -83,16 +85,10 @@ public class BootstrapModule {
         Executor executor = Executors.newSingleThreadExecutor();
 
         CookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
-
-
-        //Interceptor, in case we need it
-        //okHttpClient.interceptors().add(new Interceptor() {
-        //    @Override
-        //    public Response intercept(Chain chain) throws IOException {
-        //        return null;
-        //    }
-        //});
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .cookieJar(cookieJar)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.basepath)
@@ -115,6 +111,10 @@ public class BootstrapModule {
     @Provides
     @Singleton
     SharedPreferenceManager sharedPreferenceManager(Bus bus){ return new SharedPreferenceManager();}
+
+    @Provides
+    @Singleton
+    UsernamesList usernamesList(Bus bus){ return new UsernamesList(); }
     
     //// TODO: 10/06/2016 add databaseHelper (check which db to use) 
 
