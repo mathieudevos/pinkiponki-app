@@ -59,4 +59,28 @@ public class SharedPreferenceManager {
         Log.d(TAG, "Get default game amount: " + sharedPreferences.getInt("defaultGameAmount", 20));
         return sharedPreferences.getInt("defaultGameAmount", 20);
     }
+
+    public void setCurrentEmail(String email){
+        Log.d(TAG, "CurrentEmail set: " + email);
+        editor.putString("CurrentEmail", email);
+        editor.commit();
+    }
+
+    public String getCurrentEmail(){
+        Log.d(TAG, "CurrentEmail get: " + sharedPreferences.getString("CurrentEmail", "error@hupsista.komski"));
+        return sharedPreferences.getString("CurrentEmail", "error@hupsista.komski");
+    }
+
+    public void softReset(){
+        Log.d(TAG, "Soft reset called.");
+        editor.clear();
+        editor.commit();
+        setInitialLaunchDone();
+    }
+
+    public void hardReset(){
+        Log.d(TAG, "Hard reset called.");
+        editor.clear();
+        editor.commit();
+    }
 }

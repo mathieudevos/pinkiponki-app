@@ -34,6 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
     private long startTime;
     private Handler handler;
 
+    private String email;
+
     @BindView(R.id.input_username)
     EditText _usernameText;
 
@@ -114,7 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         String username = _usernameText.getText().toString().toLowerCase(); //all usernames are lowercase only
         String password = _passwordText.getText().toString();
-        String email = _emailText.getText().toString();
+        email = _emailText.getText().toString();
 
         //here we handle the NWL section.
 
@@ -126,7 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
         boolean valid = true;
 
         String username = _usernameText.getText().toString();
-        String email = _emailText.getText().toString();
+        email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
         Pattern p = Pattern.compile(Constants.username_pattern); //alphanumeric
@@ -153,6 +155,7 @@ public class RegisterActivity extends AppCompatActivity {
         Log.d(TAG, "Total time: " + (System.currentTimeMillis()-startTime));
         toastCreator.showToastLong("Welcome user: " + username.getUsername());
         sharedPreferenceManager.setCurrentUsername(username);
+        sharedPreferenceManager.setCurrentEmail(email);
         Intent intent = new Intent(getApplication(), MainActivity.class);
         startActivity(intent);
     }

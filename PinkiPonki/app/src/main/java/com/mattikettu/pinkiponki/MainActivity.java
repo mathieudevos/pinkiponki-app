@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.mattikettu.pinkiponki.ui.SlidingTabLayout;
 import com.mattikettu.pinkiponki.ui.ImagePagerAdapter;
@@ -24,8 +25,17 @@ import com.mattikettu.pinkiponki.util.ToastCreator;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @BindView(R.id.drawer_header_username)
+    TextView drawer_header_username;
+
+    @BindView(R.id.drawer_header_email)
+    TextView drawer_header_email;
 
     @Inject
     protected ToastCreator toastCreator;
@@ -38,18 +48,24 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         Injector.inject(this);
+        ButterKnife.bind(this);
 
         //Check if it is initial launch
         if(sharedPreferenceManager.isInitialLaunch()){
             Intent intent = new Intent(getApplication(), WelcomeActivity.class);
             startActivity(intent);
+            this.finish();
         }
 
         //Check if we have a current user
         if(sharedPreferenceManager.getCurrentUsername().isEmpty()){
             Intent intent = new Intent(getApplication(), LoginActivity.class);
             startActivity(intent);
+            this.finish();
         }
+
+        // Code from here on assumes login
+
 
         setContentView(R.layout.base_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -63,6 +79,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_view);
         navigationView.setNavigationItemSelectedListener(this);
+        drawer_header_username.setText(sharedPreferenceManager.getCurrentUsername());
+        drawer_header_email.setText(sharedPreferenceManager.getCurrentEmail());
 
         //Sliding tabs
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);

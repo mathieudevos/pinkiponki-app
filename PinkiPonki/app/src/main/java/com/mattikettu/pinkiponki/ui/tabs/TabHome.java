@@ -104,11 +104,7 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
             public void onClick(View view) {
 
                 toastCreator.showToastLong("Clicked button, idiot.");
-                progressDialog = new ProgressDialog(getActivity(), R.style.AppTheme_Dark_Dialog);
-                progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("Acquiring games...");
-                progressDialog.show();
-                NWL.getGames(sharedPreferenceManager.getDefaultGameAmount(), handler);
+
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
             }
@@ -128,6 +124,8 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
         lv.setEmptyView(getActivity().findViewById(R.id.empty_view));
 
         lv.setAdapter(getTabHomeAdapter());
+
+        loadAllGames();
     }
 
     @Override
@@ -153,6 +151,14 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
             progressDialog.dismiss();
         }
         toastCreator.showToastLong("Updating games failed.");
+    }
+
+    private void loadAllGames(){
+        progressDialog = new ProgressDialog(getActivity(), R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Acquiring games...");
+        progressDialog.show();
+        NWL.getGames(sharedPreferenceManager.getDefaultGameAmount(), handler);
     }
 
 }
