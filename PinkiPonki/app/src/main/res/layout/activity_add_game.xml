@@ -8,6 +8,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textDirection="ltr"
             android:orientation="vertical">
 
             <!-- Toolbar -->
@@ -17,13 +18,154 @@
                 android:title="@string/app_name"
                 android:id="@+id/toolbar_addgame"
                 android:background="@color/colorPrimary"
-                android:theme="@style/ToolbarStyle">
+                android:theme="@style/ToolbarStyle"
+                android:layout_marginBottom="20dp">
 
             </android.support.v7.widget.Toolbar>
 
+            <!-- Team A -->
+            <LinearLayout
+                android:id="@+id/a_linlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:orientation="vertical">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+                        <EditText
+                            android:id="@+id/input_a1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Team A player 1"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/input_a2">
+                        <EditText
+                            android:id="@+id/input_a2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Team A player 2"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="3">
+                    <EditText
+                        android:id="@+id/input_ascore"
+                        android:inputType="number"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Score A"/>
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
 
+            <!-- ruler -->
+            <View
+                android:id="@+id/ruler1"
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:background="@color/iron"
+                android:layout_below="@+id/a_linlayout"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
 
+            <!-- Team B -->
+            <LinearLayout
+                android:id="@+id/b_linlayout"
+                android:layout_below="@+id/ruler1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:orientation="vertical">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+                        <EditText
+                            android:id="@+id/input_b1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Team B player 1"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/input_a2">
+                        <EditText
+                            android:id="@+id/input_b2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Team B player 2"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="3">
+                    <EditText
+                        android:id="@+id/input_bscore"
+                        android:inputType="number"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Score B"/>
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <!-- ruler -->
+            <View
+                android:id="@+id/ruler2"
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:background="@color/iron"
+                android:layout_below="@+id/b_linlayout"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/ruler2">
+                <EditText
+                    android:id="@+id/input_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="About"
+                    android:inputType="textMultiLine"
+                    android:gravity="top|left"
+                    android:lines="4"
+                    android:minLines="3"
+                    android:maxLines="5"
+                    android:scrollbars="none"/>
+
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 

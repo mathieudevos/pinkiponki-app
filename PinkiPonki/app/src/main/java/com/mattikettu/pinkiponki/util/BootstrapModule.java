@@ -28,6 +28,7 @@ import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.google.gson.Gson;
+import com.mattikettu.pinkiponki.AddGameActivity;
 import com.mattikettu.pinkiponki.LoginActivity;
 import com.mattikettu.pinkiponki.RegisterActivity;
 import com.mattikettu.pinkiponki.WelcomeActivity;
@@ -65,7 +66,8 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
                 MainActivity.class,
                 LoginActivity.class,
                 RegisterActivity.class,
-                WelcomeActivity.class
+                WelcomeActivity.class,
+                AddGameActivity.class
         }
 )
 
