@@ -31,12 +31,6 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-//    @BindView(R.id.drawer_header_username)
-//    TextView drawer_header_username;
-
-//    @BindView(R.id.drawer_header_email)
-//    TextView drawer_header_email;
-
     @Inject
     protected ToastCreator toastCreator;
 
@@ -79,8 +73,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_view);
         navigationView.setNavigationItemSelectedListener(this);
-        //drawer_header_username.setText(sharedPreferenceManager.getCurrentUsername());
-        //drawer_header_email.setText(sharedPreferenceManager.getCurrentEmail());
+
+        View header = navigationView.getHeaderView(0);
+        TextView username = (TextView) header.findViewById(R.id.drawer_header_username);
+        TextView email = (TextView) header.findViewById(R.id.drawer_header_email);
+        username.setText(sharedPreferenceManager.getCurrentUsername());
+        email.setText(sharedPreferenceManager.getCurrentEmail());
 
         //Sliding tabs
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);

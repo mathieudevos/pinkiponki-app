@@ -10,24 +10,32 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ListView
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/tab_home_listview"
-            />
+            android:layout_height="match_parent"
+            android:id="@+id/swipeContainer_home">
 
-        <TextView
-            android:id="@+id/empty_view"
-            android:layout_width="match_parent"
-            android:layout_height="100dip"
-            android:gravity="center"
-            android:text="No data to be displayed - HOME"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimaryText"
-            android:background="@color/tabsScrollColor"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/tab_home_listview"
+                />
+
+            <TextView
+                android:id="@+id/empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="100dip"
+                android:gravity="center"
+                android:text="No data to be displayed - HOME"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryText"
+                android:background="@color/tabsScrollColor"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+
 
     </LinearLayout>
 

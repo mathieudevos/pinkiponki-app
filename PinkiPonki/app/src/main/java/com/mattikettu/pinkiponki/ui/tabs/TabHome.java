@@ -3,11 +3,13 @@ package com.mattikettu.pinkiponki.ui.tabs;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
+import com.mattikettu.pinkiponki.AddGameActivity;
 import com.mattikettu.pinkiponki.R;
 import com.mattikettu.pinkiponki.networkapi.CurrentUser;
 import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
@@ -31,6 +34,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 /**
  * Created by MD on 12/06/2016.
@@ -41,6 +47,9 @@ import javax.inject.Inject;
 public class TabHome extends Fragment implements AdapterView.OnItemClickListener{
 
     private static final String TAG = "TABHOME";
+
+    @BindView(R.id.swipeContainer_home)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Inject
     protected ToastCreator toastCreator;
@@ -64,6 +73,7 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
     private Handler handler;
     private ProgressDialog progressDialog;
     private View footerView;
+    private View thisView;
 
     private String pdialogMsg = "Acquiring information...";
     private int currentDone = 0;
@@ -91,6 +101,7 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
         View v =inflater.inflate(R.layout.tab_home,container,false);
 
         Injector.inject(this);
+        ButterKnife.bind(this, v);
 
         handler = new Handler(Looper.getMainLooper()) {
             @Override
@@ -123,18 +134,28 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
 
         //Fab
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setImageResource(R.drawable.ic_add_black_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddGameActivity.class);
+                startActivity(intent);
 
                 toastCreator.showToastLong("Clicked button, idiot.");
-
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
             }
         });
 
-        loadEverything();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadEverythingNoDialog();
+            }
+        });
+        swipeRefreshLayout.setColorSchemeResources(R.color.tabsScrollColor);
+
+        loadEverythingDialog();
+
+        thisView = v;
 
         return v;
     }
@@ -147,7 +168,9 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
         lv.setOnItemClickListener(this);
 
         footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, null, false);
-        lv.addFooterView(footerView);
+        if(lv.getFooterViewsCount()==0){
+            lv.addFooterView(footerView);
+        }
         lv.setEmptyView(getActivity().findViewById(R.id.empty_view));
 
         lv.setAdapter(getTabHomeAdapter());
@@ -155,10 +178,16 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        toastCreator.showToastLong("You clicked item: " + position);
+        toastCreator.snackbarLong(view, "You clicked item: " + position);
     }
 
-    private void loadEverything(){
+    private void loadEverythingNoDialog(){
+        loadUser();
+        loadAllGames();
+        loadAllUsernames();
+    }
+
+    private void loadEverythingDialog(){
         progressDialog = new ProgressDialog(getActivity(), R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(pdialogMsg);
@@ -170,9 +199,10 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
 
     private void failOccurred(){
         if(progressDialog.isShowing()){
+            pdialogMsg = "Acquiring information...";
             progressDialog.dismiss();
         }
-        toastCreator.showToastLong("Acquiring info failed.");
+        toastCreator.snackbarLong(thisView, "Acquiring info failed.");
     }
 
     private void updateForGames(List<GameObject> games){
@@ -218,18 +248,24 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
         currentDone += 1;
         if(currentDone == 3){
             allUpdatesFinished();
+            currentDone=0;
         }
     }
 
     private void allUpdatesFinished(){
         if(progressDialog.isShowing()){
+            pdialogMsg = "Acquiring information...";
             progressDialog.dismiss();
+        }
+        if(swipeRefreshLayout.isRefreshing()){
+            swipeRefreshLayout.setRefreshing(false);
         }
         if(lv!=null || games.size()>0){
             ((TabHomeAdapter) ((HeaderViewListAdapter) lv.getAdapter()).getWrappedAdapter()).clear();
             ((TabHomeAdapter) ((HeaderViewListAdapter) lv.getAdapter()).getWrappedAdapter()).addAll(games);
             ((TabHomeAdapter) ((HeaderViewListAdapter) lv.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
         }
+        toastCreator.snackbarLong(thisView, "Acquiring info completed.");
     }
 
 }

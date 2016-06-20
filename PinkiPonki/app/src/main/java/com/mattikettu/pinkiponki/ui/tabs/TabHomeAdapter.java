@@ -72,6 +72,12 @@ public class TabHomeAdapter extends ArrayAdapter<GameObject>{
         @BindView(R.id.b2_verify)
         ImageView b2_verify;
 
+        @BindView(R.id.verified)
+        ImageView verified;
+
+        @BindView(R.id.picture)
+        ImageView picture;
+
         public ViewHolder(View v){
             ButterKnife.bind(this, v);
         }
@@ -102,6 +108,13 @@ public class TabHomeAdapter extends ArrayAdapter<GameObject>{
         // Score
         holder.teamA_score.setText(Integer.toString(game.getTeamA_score()));
         holder.teamB_score.setText(Integer.toString(game.getTeamB_score()));
+        if(game.getTeamA_score()>game.getTeamB_score()){
+            holder.teamA_score.setTextColor(context.getResources().getColor(R.color.winnerGreen));
+            holder.teamB_score.setTextColor(context.getResources().getColor(R.color.loserRed));
+        } else {
+            holder.teamA_score.setTextColor(context.getResources().getColor(R.color.loserRed));
+            holder.teamB_score.setTextColor(context.getResources().getColor(R.color.winnerGreen));
+        }
 
         // Verified icons
         for(int i  = 0; i<game.getVerification().size(); i++){
@@ -117,6 +130,11 @@ public class TabHomeAdapter extends ArrayAdapter<GameObject>{
             if(game.getVerification().get(i).equals(game.getTeamB_player2())) {
                 holder.b2_verify.setVisibility(View.VISIBLE);
             }
+        }
+
+        // General verified
+        if(game.isVerified()){
+            holder.verified.setVisibility(View.VISIBLE);
         }
 
         // Timestamp

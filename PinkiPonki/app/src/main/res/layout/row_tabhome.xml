@@ -26,7 +26,7 @@
         android:id="@+id/a1_verify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_account_check"
+        android:src="@drawable/check"
         android:layout_alignTop="@+id/teamA_player1"
         android:layout_alignBottom="@+id/teamA_player1"
         android:layout_toEndOf="@+id/teamA_player1"
@@ -47,7 +47,7 @@
         android:id="@+id/a2_verify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_account_check"
+        android:src="@drawable/check"
         android:layout_alignTop="@+id/teamA_player2"
         android:layout_alignBottom="@+id/teamA_player2"
         android:layout_toEndOf="@+id/teamA_player2"
@@ -68,7 +68,7 @@
         android:id="@+id/b1_verify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_account_check"
+        android:src="@drawable/check"
         android:layout_alignTop="@+id/teamB_player1"
         android:layout_alignBottom="@+id/teamB_player1"
         android:layout_toStartOf="@+id/teamB_player1"
@@ -89,7 +89,7 @@
         android:id="@+id/b2_verify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_account_check"
+        android:src="@drawable/check"
         android:layout_alignTop="@+id/teamB_player2"
         android:layout_alignBottom="@+id/teamB_player2"
         android:layout_toStartOf="@+id/teamB_player2"
@@ -100,10 +100,33 @@
     <ImageView
         android:id="@+id/centerIcon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="16dp"
         android:src="@drawable/ic_settings_ethernet_black_24dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
+
+    <ImageView
+        android:id="@+id/verified"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+
+        android:src="@drawable/check_all"
+
+        android:layout_alignBottom="@+id/teamA_player1"
+        android:layout_toStartOf="@+id/deadCentre"
+        android:layout_marginEnd="3dp"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:src="@drawable/ic_photo_black_24dp"
+        android:layout_alignBottom="@+id/teamA_player1"
+        android:layout_centerHorizontal="true"
+        android:layout_toEndOf="@+id/deadCentre"
+        android:layout_marginStart="3dp"
+        android:visibility="invisible"/>
 
     <!-- scores -->
     <TextView
@@ -111,9 +134,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="60sp"
-        android:text="-1"
-        android:layout_toStartOf="@+id/centerIcon"
+        android:textSize="70sp"
+        android:text="0"
+        android:layout_toStartOf="@+id/deadCentre"
         android:layout_centerVertical="true"
         android:layout_marginEnd="20dp"
         android:fontFamily="sans-serif-smallcaps" />
@@ -123,9 +146,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="60sp"
-        android:text="-1"
-        android:layout_toEndOf="@+id/centerIcon"
+        android:textSize="70sp"
+        android:text="0"
+        android:layout_toEndOf="@+id/deadCentre"
         android:layout_centerVertical="true"
         android:layout_marginStart="20dp"
         android:fontFamily="sans-serif-smallcaps" />
@@ -139,6 +162,15 @@
         android:id="@+id/timestamp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
         android:textSize="10sp"/>
+
+    <!-- other icons -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/deadCentre"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 
 </RelativeLayout>

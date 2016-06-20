@@ -1,7 +1,9 @@
 package com.mattikettu.pinkiponki.util;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -36,5 +38,13 @@ public class ToastCreator {
 
     public void showToastLong(Context ctx, String text){
         Toast.makeText(ctx, text, Toast.LENGTH_LONG).show();
+    }
+
+    public void snackbarLong(View v, String text){
+        Snackbar.make(v, text, Snackbar.LENGTH_LONG).show();
+    }
+
+    public void snackbarShort(View v, String text){
+        Snackbar.make(v, text, Snackbar.LENGTH_SHORT).show();
     }
 }
