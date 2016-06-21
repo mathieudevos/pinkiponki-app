@@ -136,16 +136,30 @@
 
         <!-- ruler -->
         <View
+            android:id="@+id/ruler1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorSecondaryText"
             android:layout_below="@+id/gameLayout"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="80dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"/>
 
-        </RelativeLayout>
+
+
+        <EditText
+            android:id="@+id/description_addgame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:hint="Description"
+         />
+
+    </RelativeLayout>
 
 
 
