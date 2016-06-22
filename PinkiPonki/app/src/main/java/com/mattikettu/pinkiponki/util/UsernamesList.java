@@ -24,4 +24,8 @@ public class UsernamesList {
         Log.d(TAG, "Total users count: " + usernames.size());
         this.usernames.addAll(usernames);
     }
+
+    public boolean contains(String username){
+        return usernames.contains(username.toLowerCase());
+    }
 }

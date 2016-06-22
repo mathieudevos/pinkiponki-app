@@ -140,8 +140,6 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AddGameActivity.class);
                 startActivity(intent);
-
-                toastCreator.showToastLong("Clicked button, idiot.");
             }
         });
 

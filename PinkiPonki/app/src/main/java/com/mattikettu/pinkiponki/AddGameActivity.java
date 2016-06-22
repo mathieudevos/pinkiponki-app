@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.mattikettu.pinkiponki.ui.SelectPlayerDialog;
 import com.mattikettu.pinkiponki.util.Injector;
 import com.mattikettu.pinkiponki.util.ToastCreator;
+import com.mattikettu.pinkiponki.util.UsernamesList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,9 @@ public class AddGameActivity extends AppCompatActivity {
     @Inject
     protected ToastCreator toastCreator;
 
+    @Inject
+    protected UsernamesList usernamesList;
+
     private long lastClick = 0;
 
     private int a_score = 0;
@@ -78,7 +82,7 @@ public class AddGameActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        toastCreator.snackbarShort(rootview_addgame, "Click or double click the scores to interact");
+        toastCreator.showToastLong("Click or double click the scores to interact");
 
         fab_addUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +144,8 @@ public class AddGameActivity extends AppCompatActivity {
                 lastClick = currentClick;
             }
         });
+
+        setDoubleTapToRemove();
     }
 
     private void updateScoreColors(){
@@ -153,6 +159,7 @@ public class AddGameActivity extends AppCompatActivity {
         } else if(a_score==b_score){
             teamA_score.setTextColor(getResources().getColor(R.color.colorPrimaryText));
             teamB_score.setTextColor(getResources().getColor(R.color.colorPrimaryText));
+            toastCreator.snackbarShort(rootview_addgame, "No draws! Change that shit.");
         }
     }
 
@@ -174,6 +181,105 @@ public class AddGameActivity extends AppCompatActivity {
     }
 
     private void addUser(String username, int team){
-        toastCreator.snackbarShort(rootview_addgame, "Adding user: " + username + " to team: " + String.valueOf(team));
+        if(usernamesList.contains(username)){
+            if(alreadyPlaying(username)){
+                toastCreator.snackbarLong(rootview_addgame, "Player is already in the game, double tap to remove.");
+                return;
+            }
+            if(team==0){
+                if(teamA_player1.getText().equals("Team A player 1")){
+                    teamA_player1.setText(username);
+                    teamA_player1.setTextColor(getResources().getColor(R.color.colorPrimaryText));
+                    return;
+                }
+                if(teamA_player2.getText().equals("Team A player 2")){
+                    teamA_player2.setText(username);
+                    teamA_player2.setTextColor(getResources().getColor(R.color.colorPrimaryText));
+                    return;
+                }
+                toastCreator.snackbarLong(rootview_addgame, "Users for team A already full, doubletap on a user to remove.");
+                return;
+            }
+            if(team==1){
+                if(teamB_player1.getText().equals("Team B player 1")){
+                    teamB_player1.setText(username);
+                    teamB_player1.setTextColor(getResources().getColor(R.color.colorPrimaryText));
+                    return;
+                }
+                if(teamB_player2.getText().equals("Team B player 2")){
+                    teamB_player2.setText(username);
+                    teamB_player2.setTextColor(getResources().getColor(R.color.colorPrimaryText));
+                    return;
+                }
+                toastCreator.snackbarLong(rootview_addgame, "Users for team A already full, doubletap on a user to remove.");
+                return;
+            }
+        }else {
+            toastCreator.snackbarShort(rootview_addgame, "Cannot find user: " + username);
+        }
+    }
+
+    private boolean alreadyPlaying(String username){
+        boolean playing = false;
+        if(teamA_player1.getText().equals(username)){
+            playing = true;
+        }
+        if(teamA_player2.getText().equals(username)){
+            playing = true;
+        }
+        if(teamB_player1.getText().equals(username)){
+            playing = true;
+        }
+        if(teamB_player2.getText().equals(username)){
+            playing = true;
+        }
+        return playing;
+    }
+
+    private void setDoubleTapToRemove(){
+        teamA_player1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long currentClick = System.currentTimeMillis();
+                if((currentClick-lastClick)<500){
+                    teamA_player1.setText("Team A player 1");
+                    teamA_player1.setTextColor(getResources().getColor(R.color.colorSecondaryText));
+                }
+                lastClick = currentClick;
+            }
+        });
+        teamA_player2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long currentClick = System.currentTimeMillis();
+                if((currentClick-lastClick)<500){
+                    teamA_player2.setText("Team A player 2");
+                    teamA_player2.setTextColor(getResources().getColor(R.color.colorSecondaryText));
+                }
+                lastClick = currentClick;
+            }
+        });
+        teamB_player1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long currentClick = System.currentTimeMillis();
+                if((currentClick-lastClick)<500){
+                    teamB_player1.setText("Team B player 1");
+                    teamB_player1.setTextColor(getResources().getColor(R.color.colorSecondaryText));
+                }
+                lastClick = currentClick;
+            }
+        });
+        teamB_player2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long currentClick = System.currentTimeMillis();
+                if((currentClick-lastClick)<500){
+                    teamB_player2.setText("Team B player 2");
+                    teamB_player2.setTextColor(getResources().getColor(R.color.colorSecondaryText));
+                }
+                lastClick = currentClick;
+            }
+        });
     }
 }

@@ -40,4 +40,17 @@ public class CurrentUser extends UserObject {
         this.setRating(user.getRating());
         this.setPassword("Suck da dickah");
     }
+
+    public List<String> getRecentPlayedWith(){
+        List<String> recentPlayedWith = new ArrayList<>();
+        if(getGames()!=null && getGames().size()>0){
+            for(int i = 0; i<Math.min(getGames().size(),3);i++){
+                //Only check last 3
+            }
+        }
+        recentPlayedWith.add("me");
+        recentPlayedWith.add("myself");
+        recentPlayedWith.add("and I");
+        return recentPlayedWith;
+    }
 }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:orientation="horizontal"
+        android:background="@color/tabsScrollColor">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_person_add_black_24dp"
+            android:background="@color/tabsScrollColor"
+            android:tint="@color/white"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:text="ADD A USER"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:gravity="center_vertical"
+            android:background="@color/tabsScrollColor"
+            android:textColor="@color/white"
+            android:layout_marginEnd="20dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp">
+        <EditText
+            android:id="@+id/input_username_dialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:inputType="textEmailAddress"/>
+        <ImageView
+            android:id="@+id/add_self_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/human_greeting"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center_vertical"
+            android:tint="@color/colorSecondaryText"/>
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/spinner_friends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:spinnerMode="dropdown">
+    </Spinner>
+
+    <Spinner
+        android:id="@+id/spinner_recent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:spinnerMode="dropdown">
+    </Spinner>
+</LinearLayout>
