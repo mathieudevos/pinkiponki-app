@@ -1,16 +1,27 @@
 package com.mattikettu.pinkiponki;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.mattikettu.pinkiponki.networkapi.CurrentUser;
+import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
+import com.mattikettu.pinkiponki.objects.GameObject;
 import com.mattikettu.pinkiponki.ui.SelectPlayerDialog;
 import com.mattikettu.pinkiponki.util.Injector;
+import com.mattikettu.pinkiponki.util.LocationsList;
 import com.mattikettu.pinkiponki.util.ToastCreator;
 import com.mattikettu.pinkiponki.util.UsernamesList;
 
@@ -54,8 +65,14 @@ public class AddGameActivity extends AppCompatActivity {
     @BindView(R.id.fab_upload)
     FloatingActionButton fab_upload;
 
+    @BindView(R.id.location)
+    Spinner location;
 
+    @BindView(R.id.description_addgame)
+    EditText description_addgame;
 
+    @Inject
+    protected NetworkLogic NWL;
 
     @Inject
     protected ToastCreator toastCreator;
@@ -63,10 +80,20 @@ public class AddGameActivity extends AppCompatActivity {
     @Inject
     protected UsernamesList usernamesList;
 
+    @Inject
+    protected LocationsList locationsList;
+
+    @Inject
+    protected CurrentUser currentUser;
+
     private long lastClick = 0;
 
     private int a_score = 0;
     private int b_score = 0;
+
+    private Handler handler;
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +102,20 @@ public class AddGameActivity extends AppCompatActivity {
 
         Injector.inject(this);
         ButterKnife.bind(this);
+
+        handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case 200:
+                        uploadGameSuccess((GameObject) msg.obj);
+                        break;
+                    default:
+                        uploadGameFailure();
+                        break;
+                }
+            }
+        };
 
         toolbar.setTitle("ADD A NEW GAME");
         setSupportActionBar(toolbar);
@@ -101,7 +142,7 @@ public class AddGameActivity extends AppCompatActivity {
         fab_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toastCreator.showToastLong("Clicked button, idiot.");
+                uploadGame();
             }
         });
 
@@ -146,6 +187,10 @@ public class AddGameActivity extends AppCompatActivity {
         });
 
         setDoubleTapToRemove();
+        List<String> locations = locationsList.getLocations();
+        locations.add(0, "Location");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_secondary_text, locations);
+        location.setAdapter(adapter);
     }
 
     private void updateScoreColors(){
@@ -281,5 +326,73 @@ public class AddGameActivity extends AppCompatActivity {
                 lastClick = currentClick;
             }
         });
+    }
+
+    private void uploadGame(){
+        if(progressDialog==null){
+            progressDialog = new ProgressDialog(this, R.style.AppTheme_Dark_Dialog);
+        }
+        if(!progressDialog.isShowing()){
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Uploading the game");
+            progressDialog.show();
+        }
+
+        List<String> players = getCurrentPlayers();
+        if(players.size()!=4){
+            toastCreator.snackbarLong(rootview_addgame, "Need 4 players!");
+            return;
+        }
+        if(Integer.parseInt(teamA_score.getText().toString())!=6 && Integer.parseInt(teamB_score.getText().toString())!=6){
+            toastCreator.snackbarLong(rootview_addgame, "Needs a winner!");
+            return;
+        }
+        if(Integer.parseInt(teamA_score.getText().toString()) == Integer.parseInt(teamB_score.getText().toString())){
+            toastCreator.snackbarLong(rootview_addgame, "Draws are for losers!");
+            return;
+        }
+        boolean currentUserIsPlayer = false;
+        for(int i=0; i<players.size();i++){
+            if(players.get(i).toLowerCase().equals(currentUser.getUsername().toLowerCase())){
+                currentUserIsPlayer = true;
+            }
+        }
+        if(!currentUserIsPlayer){
+            toastCreator.snackbarLong(rootview_addgame, "You have to be played, unable to upload for others!");
+            return;
+        }
+        String locationString = "";
+        if(!location.getSelectedItem().toString().equals("Location")){
+            locationString = location.getSelectedItem().toString();
+        }
+
+        GameObject game = new GameObject();
+
+        //players
+        game.setTeamA_player1(players.get(0).toLowerCase());
+        game.setTeamA_player2(players.get(1).toLowerCase());
+        game.setTeamB_player1(players.get(2).toLowerCase());
+        game.setTeamB_player1(players.get(3).toLowerCase());
+
+        //author
+        game.setAuthor(currentUser.getUsername().toLowerCase());
+
+        //score
+        game.setTeamA_score(Integer.parseInt(teamA_score.getText().toString()));
+        game.setTeamB_score(Integer.parseInt(teamB_score.getText().toString()));
+
+        //location
+        game.setLocation(locationString);
+
+        //about
+        game.setAbout(description_addgame.getText().toString());
+    }
+
+    private void uploadGameSuccess(GameObject game){
+
+    }
+
+    private void uploadGameFailure(){
+
     }
 }

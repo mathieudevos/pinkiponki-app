@@ -30,6 +30,8 @@ public class GameObject {
 
     String about;
 
+    String location;
+
     public String getTeamA_player1() {
         return teamA_player1;
     }
@@ -116,5 +118,13 @@ public class GameObject {
 
     public void setAbout(String about) {
         this.about = about;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

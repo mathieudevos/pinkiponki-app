@@ -35,6 +35,10 @@ public interface APIService {
     @GET("/usernames")
     Call<List<String>> getUsernames();
 
+    // Locations
+    @GET("/locations")
+    Call<List<String>> getLocations();
+
 
     // Game related
     @GET("/games_all/{amount}")

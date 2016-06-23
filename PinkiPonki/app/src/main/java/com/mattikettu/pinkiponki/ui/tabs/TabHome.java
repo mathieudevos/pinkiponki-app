@@ -25,6 +25,7 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
 import com.mattikettu.pinkiponki.objects.GameObject;
 import com.mattikettu.pinkiponki.objects.UserObject;
 import com.mattikettu.pinkiponki.util.Injector;
+import com.mattikettu.pinkiponki.util.LocationsList;
 import com.mattikettu.pinkiponki.util.SharedPreferenceManager;
 import com.mattikettu.pinkiponki.util.ToastCreator;
 import com.mattikettu.pinkiponki.util.UsernamesList;
@@ -62,6 +63,9 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
 
     @Inject
     protected UsernamesList usernamesList;
+
+    @Inject
+    protected LocationsList locationsList;
 
     @Inject
     protected SharedPreferenceManager sharedPreferenceManager;
@@ -121,6 +125,10 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
                             case 3:
                                 //We got the usernames list
                                 updateForUsernames((List<String>) msg.obj);
+                                break;
+                            case 4:
+                                //We got the locations list
+                                updateForLocations((List<String>) msg.obj);
                                 break;
                             default:
                                 break;
@@ -183,6 +191,7 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
         loadUser();
         loadAllGames();
         loadAllUsernames();
+        loadAllLocations();
     }
 
     private void loadEverythingDialog(){
@@ -193,6 +202,7 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
         loadUser();
         loadAllGames();
         loadAllUsernames();
+        loadAllLocations();
     }
 
     private void failOccurred(){
@@ -230,6 +240,15 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
         checkedUpdates();
     }
 
+    private void updateForLocations(List<String> locations){
+        locationsList.fullUpdate(locations);
+        pdialogMsg += "\nLocations loaded.";
+        if(progressDialog.isShowing()){
+            progressDialog.setMessage(pdialogMsg);
+        }
+        checkedUpdates();
+    }
+
     private void loadUser(){
         NWL.getUser(sharedPreferenceManager.getCurrentUsername(), handler);
     }
@@ -242,9 +261,11 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
         NWL.getUsernames(handler);
     }
 
+    private void loadAllLocations(){ NWL.getLocations(handler); }
+
     private void checkedUpdates(){
         currentDone += 1;
-        if(currentDone == 3){
+        if(currentDone == 4){
             allUpdatesFinished();
             currentDone=0;
         }

@@ -153,6 +153,19 @@
         android:layout_marginStart="20dp"
         android:fontFamily="sans-serif-smallcaps" />
 
+    <!-- location -->
+    <TextView
+        android:id="@id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Location"
+        android:textSize="11sp"
+        android:textColor="@color/colorPrimaryText"
+        android:layout_marginBottom="14dp"/>
+
     <!-- timestamp -->
     <TextView
         android:layout_width="wrap_content"
@@ -162,8 +175,9 @@
         android:id="@+id/timestamp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="5dp"
-        android:textSize="10sp"/>
+        android:layout_marginBottom="3dp"
+        android:textSize="10sp"
+        android:textColor="@color/colorSecondaryText"/>
 
     <!-- other icons -->
     <ImageView

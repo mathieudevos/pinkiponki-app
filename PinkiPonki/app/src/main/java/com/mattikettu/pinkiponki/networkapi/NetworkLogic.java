@@ -176,9 +176,34 @@ public class NetworkLogic {
         });
     }
 
+    public void getLocations(final Handler handler){
+        Call<List<String>> call = apiService.getLocations();
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                Log.d(TAG, "Responsecode: " + response.code());
+                Message msg;
+                if(response.code()==200){
+                    msg = handler.obtainMessage(response.code(), 4, 0, response.body());
+                } else {
+                    msg = handler.obtainMessage(response.code());
+                }
+                msg.sendToTarget();
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Log.d(TAG, "Failed: " + t.getMessage());
+                Message msg = handler.obtainMessage(0); //0 for errors
+                msg.sendToTarget();
+            }
+        });
+
+    }
 
 
-    // gneral usage
+
+    // general usage
     private String sha256(String input){
         String output = "";
         try {

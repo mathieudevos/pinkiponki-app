@@ -58,6 +58,7 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
                 ToastCreator.class,
                 SharedPreferenceManager.class,
                 UsernamesList.class,
+                LocationsList.class,
 
                 //networkapi
                 NetworkLogic.class,
@@ -119,6 +120,10 @@ public class BootstrapModule {
     @Provides
     @Singleton
     UsernamesList usernamesList(Bus bus){ return new UsernamesList(); }
+
+    @Provides
+    @Singleton
+    LocationsList locationsList(Bus bus){ return new LocationsList(); }
     
     //// TODO: 10/06/2016 add databaseHelper (check which db to use) 
 
