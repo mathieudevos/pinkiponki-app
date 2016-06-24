@@ -198,7 +198,30 @@ public class NetworkLogic {
                 msg.sendToTarget();
             }
         });
+    }
 
+    public void postGame(GameObject game, final Handler handler){
+        Call<GameObject> call = apiService.postGame(game);
+        call.enqueue(new Callback<GameObject>() {
+            @Override
+            public void onResponse(Call<GameObject> call, Response<GameObject> response) {
+                Log.d(TAG, "Responsecode: " + response.code());
+                Message msg;
+                if(response.code()==200){
+                    msg = handler.obtainMessage(response.code(), 0, 0, response.body());
+                } else {
+                    msg = handler.obtainMessage(response.code());
+                }
+                msg.sendToTarget();
+            }
+
+            @Override
+            public void onFailure(Call<GameObject> call, Throwable t) {
+                Log.d(TAG, "Failed: " + t.getMessage());
+                Message msg = handler.obtainMessage(0); //0 for errors
+                msg.sendToTarget();
+            }
+        });
     }
 
 

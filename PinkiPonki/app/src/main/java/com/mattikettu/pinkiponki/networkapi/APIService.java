@@ -25,7 +25,7 @@ public interface APIService {
     @POST("/register")
     Call<Username> register(@Body UserObject userObject);
 
-    // @GET statements
+    // @GET STATEMENTS //
 
     // User related
     @GET("/users/{username}")
@@ -43,4 +43,11 @@ public interface APIService {
     // Game related
     @GET("/games_all/{amount}")
     Call<List<GameObject>> getGames(@Path("amount") int amount);
+
+
+    // @POST STATEMENTS //
+
+    // Game related
+    @POST("/games")
+    Call<GameObject> postGame(@Body GameObject gameObject);
 }

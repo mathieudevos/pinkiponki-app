@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -386,13 +387,24 @@ public class AddGameActivity extends AppCompatActivity {
 
         //about
         game.setAbout(description_addgame.getText().toString());
+
+        NWL.postGame(game, handler);
     }
 
     private void uploadGameSuccess(GameObject game){
-
+        if(progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
+        //Intent intent = new Intent(this, GameActivity.class);
+        ///intent.putExtra("game", game);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     private void uploadGameFailure(){
-
+        if(progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
+        toastCreator.snackbarLong(rootview_addgame, "Uploading the game failed!");
     }
 }

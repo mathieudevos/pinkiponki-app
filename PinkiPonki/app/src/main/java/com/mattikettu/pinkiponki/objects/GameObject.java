@@ -1,12 +1,13 @@
 package com.mattikettu.pinkiponki.objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by MD on 13/06/2016.
  */
 
-public class GameObject {
+public class GameObject implements Serializable{
 
     String teamA_player1;
 
