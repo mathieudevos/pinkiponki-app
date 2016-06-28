@@ -9,6 +9,8 @@ import com.mattikettu.pinkiponki.objects.Username;
 
 import javax.inject.Inject;
 
+import dagger.Lazy;
+
 /**
  * Created by mathieu on 14/06/2016.
  */
@@ -18,7 +20,7 @@ public class SharedPreferenceManager {
     protected Context appContext;
 
     @Inject
-    protected CurrentUser currentUser;
+    protected Lazy<CurrentUser> currentUser;
 
     private static final String TAG = "SHAREDPREFERENCEMANAGER";
     private SharedPreferences sharedPreferences;

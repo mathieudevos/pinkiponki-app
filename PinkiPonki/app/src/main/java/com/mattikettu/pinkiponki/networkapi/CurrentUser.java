@@ -4,14 +4,20 @@ import android.util.Log;
 
 import com.mattikettu.pinkiponki.objects.UserObject;
 import com.mattikettu.pinkiponki.util.Injector;
+import com.mattikettu.pinkiponki.util.SharedPreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by mathieu on 10/06/2016.
  */
 public class CurrentUser extends UserObject {
+
+    @Inject
+    protected SharedPreferenceManager sharedPreferenceManager;
 
     private static final String TAG = "CURRENTUSER";
     private List<String> clubs = new ArrayList<>();
@@ -39,6 +45,8 @@ public class CurrentUser extends UserObject {
         this.setMaxRating(user.getMaxRating());
         this.setRating(user.getRating());
         this.setPassword("Suck da dickah");
+
+        sharedPreferenceManager.setCurrentEmail(user.getEmail());
     }
 
     public List<String> getRecentPlayedWith(){

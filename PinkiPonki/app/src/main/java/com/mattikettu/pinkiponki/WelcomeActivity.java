@@ -25,7 +25,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     public void sendWelcomeButton(View v){
         sharedPreferenceManager.setInitialLaunchDone();
-        Intent intent = new Intent(getApplication(), LoginActivity.class);
+        Intent intent = new Intent(getApplication(), MainActivity.class);
         startActivity(intent);
     }
 

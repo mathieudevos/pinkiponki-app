@@ -156,8 +156,16 @@ public class RegisterActivity extends AppCompatActivity {
         toastCreator.showToastLong("Welcome user: " + username.getUsername());
         sharedPreferenceManager.setCurrentUsername(username);
         sharedPreferenceManager.setCurrentEmail(email);
-        Intent intent = new Intent(getApplication(), MainActivity.class);
-        startActivity(intent);
+
+        //Check if it is initial launch
+        if(sharedPreferenceManager.isInitialLaunch()){
+            Intent intent = new Intent(getApplication(), WelcomeActivity.class);
+            startActivity(intent);
+            this.finish();
+        } else {
+            Intent intent = new Intent(getApplication(), MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void registerFail(){

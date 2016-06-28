@@ -290,6 +290,15 @@ public class AddGameActivity extends AppCompatActivity {
                 if((currentClick-lastClick)<500){
                     teamA_player1.setText("Team A player 1");
                     teamA_player1.setTextColor(getResources().getColor(R.color.colorSecondaryText));
+                } else if(teamA_player1.getText().toString().equals("Team A player 1")){
+                    SelectPlayerDialog selectPlayerDialog = new SelectPlayerDialog();
+                    selectPlayerDialog.show(getFragmentManager(), "selectPlayerDialogFragment");
+                    selectPlayerDialog.setDialogResult(new SelectPlayerDialog.DialogResult() {
+                        @Override
+                        public void finish(String username, int team) {
+                            addUser(username, team);
+                        }
+                    });
                 }
                 lastClick = currentClick;
             }
@@ -301,6 +310,15 @@ public class AddGameActivity extends AppCompatActivity {
                 if((currentClick-lastClick)<500){
                     teamA_player2.setText("Team A player 2");
                     teamA_player2.setTextColor(getResources().getColor(R.color.colorSecondaryText));
+                } else if(teamA_player2.getText().toString().equals("Team A player 2")){
+                    SelectPlayerDialog selectPlayerDialog = new SelectPlayerDialog();
+                    selectPlayerDialog.show(getFragmentManager(), "selectPlayerDialogFragment");
+                    selectPlayerDialog.setDialogResult(new SelectPlayerDialog.DialogResult() {
+                        @Override
+                        public void finish(String username, int team) {
+                            addUser(username, team);
+                        }
+                    });
                 }
                 lastClick = currentClick;
             }
@@ -312,6 +330,15 @@ public class AddGameActivity extends AppCompatActivity {
                 if((currentClick-lastClick)<500){
                     teamB_player1.setText("Team B player 1");
                     teamB_player1.setTextColor(getResources().getColor(R.color.colorSecondaryText));
+                } else if(teamB_player1.getText().toString().equals("Team B player 1")){
+                    SelectPlayerDialog selectPlayerDialog = new SelectPlayerDialog();
+                    selectPlayerDialog.show(getFragmentManager(), "selectPlayerDialogFragment");
+                    selectPlayerDialog.setDialogResult(new SelectPlayerDialog.DialogResult() {
+                        @Override
+                        public void finish(String username, int team) {
+                            addUser(username, team);
+                        }
+                    });
                 }
                 lastClick = currentClick;
             }
@@ -323,6 +350,15 @@ public class AddGameActivity extends AppCompatActivity {
                 if((currentClick-lastClick)<500){
                     teamB_player2.setText("Team B player 2");
                     teamB_player2.setTextColor(getResources().getColor(R.color.colorSecondaryText));
+                } else if(teamB_player2.getText().toString().equals("Team B player 2")){
+                    SelectPlayerDialog selectPlayerDialog = new SelectPlayerDialog();
+                    selectPlayerDialog.show(getFragmentManager(), "selectPlayerDialogFragment");
+                    selectPlayerDialog.setDialogResult(new SelectPlayerDialog.DialogResult() {
+                        @Override
+                        public void finish(String username, int team) {
+                            addUser(username, team);
+                        }
+                    });
                 }
                 lastClick = currentClick;
             }

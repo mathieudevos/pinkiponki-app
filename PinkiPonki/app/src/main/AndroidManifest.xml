@@ -42,18 +42,16 @@
         <activity
             android:name=".RegisterActivity"
             android:theme="@style/AppTheme.Dark" />
-
         <activity
             android:name=".AddGameActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"
-                />
+                android:value=".MainActivity" />
         </activity>
         <!-- End of activities -->
 
-
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.mattikettu.pinkiponki.networkapi.CurrentUser;
 import com.mattikettu.pinkiponki.ui.SlidingTabLayout;
 import com.mattikettu.pinkiponki.ui.ImagePagerAdapter;
 import com.mattikettu.pinkiponki.util.Injector;
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Inject
+    protected CurrentUser currentUser;
+
+    @Inject
     protected ToastCreator toastCreator;
 
     @Inject
@@ -43,13 +47,6 @@ public class MainActivity extends AppCompatActivity
 
         Injector.inject(this);
         ButterKnife.bind(this);
-
-        //Check if it is initial launch
-        if(sharedPreferenceManager.isInitialLaunch()){
-            Intent intent = new Intent(getApplication(), WelcomeActivity.class);
-            startActivity(intent);
-            this.finish();
-        }
 
         //Check if we have a current user
         if(sharedPreferenceManager.getCurrentUsername().isEmpty()){
@@ -116,8 +113,12 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_item_home) {
             toastCreator.showToastLong("nav_item_home");
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_item_profile) {
             toastCreator.showToastLong("nav_item_profile");
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_item_club) {
             toastCreator.showToastLong("nav_item_club");
         } else if (id == R.id.nav_item_settings) {
