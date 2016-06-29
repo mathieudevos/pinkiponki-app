@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.mattikettu.pinkiponki.util.Injector;
 import com.mattikettu.pinkiponki.util.SharedPreferenceManager;
@@ -16,6 +17,7 @@ import com.mattikettu.pinkiponki.util.ToastCreator;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -28,19 +30,20 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     @Inject
     protected SharedPreferenceManager sharedPreferenceManager;
 
+    @BindView(R.id.profile_username)
+    TextView profile_username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
 
         Injector.inject(this);
         ButterKnife.bind(this);
 
-        setContentView(R.layout.activity_profile);
-
-        //Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.profile_toolbar);
-        toolbar.setTitle(sharedPreferenceManager.getCurrentUsername());
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        //Username & toolbar icon
+        profile_username.setText(sharedPreferenceManager.getCurrentUsername());
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Drawer
