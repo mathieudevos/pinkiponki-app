@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.mattikettu.pinkiponki.util.Injector;
+import com.mattikettu.pinkiponki.util.SharedPreferenceManager;
 import com.mattikettu.pinkiponki.util.ToastCreator;
 
 import javax.inject.Inject;
@@ -24,6 +25,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     @Inject
     protected ToastCreator toastCreator;
 
+    @Inject
+    protected SharedPreferenceManager sharedPreferenceManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,8 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.profile_toolbar);
+        toolbar.setTitle(sharedPreferenceManager.getCurrentUsername());
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(toolbar);
 
         //Drawer
@@ -46,6 +52,8 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        fillTextviews();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -75,5 +83,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void fillTextviews(){
+
     }
 }
