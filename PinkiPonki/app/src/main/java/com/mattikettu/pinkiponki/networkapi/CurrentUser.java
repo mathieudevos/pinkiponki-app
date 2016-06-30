@@ -44,6 +44,7 @@ public class CurrentUser extends UserObject {
         games.addAll(user.getGames());
         this.setMaxRating(user.getMaxRating());
         this.setRating(user.getRating());
+        this.setProfilePicture(user.getProfilePicture());
         this.setPassword("Suck da dickah");
 
         sharedPreferenceManager.setCurrentEmail(user.getEmail());

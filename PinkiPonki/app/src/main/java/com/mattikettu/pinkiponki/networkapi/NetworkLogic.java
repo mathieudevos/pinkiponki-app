@@ -224,6 +224,10 @@ public class NetworkLogic {
         });
     }
 
+    public void getProfilePicture(String profilePictureLink, final Handler handler){
+        //Should I use picasso?!?!
+    }
+
 
 
     // general usage

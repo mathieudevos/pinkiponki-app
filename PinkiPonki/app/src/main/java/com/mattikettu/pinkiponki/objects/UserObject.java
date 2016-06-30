@@ -35,6 +35,8 @@ public class UserObject {
 
     String lastSeen;
 
+    String profilePicture;
+
     public String getUsername() {
         return username;
     }
@@ -145,5 +147,13 @@ public class UserObject {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }
