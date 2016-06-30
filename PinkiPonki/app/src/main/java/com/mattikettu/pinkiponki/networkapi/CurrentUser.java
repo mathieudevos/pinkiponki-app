@@ -62,4 +62,24 @@ public class CurrentUser extends UserObject {
         recentPlayedWith.add("and I");
         return recentPlayedWith;
     }
+
+    @Override
+    public List<String> getClubs() {
+        return clubs;
+    }
+
+    @Override
+    public List<String> getFriends() {
+        return friends;
+    }
+
+    @Override
+    public List<String> getGames() {
+        return games;
+    }
+
+    @Override
+    public List<String> getFriendsTimeline() {
+        return friendsTimeline;
+    }
 }

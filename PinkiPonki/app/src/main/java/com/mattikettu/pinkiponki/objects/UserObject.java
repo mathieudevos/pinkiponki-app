@@ -1,6 +1,7 @@
 package com.mattikettu.pinkiponki.objects;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mathieu on 09/06/2016.
@@ -23,13 +24,13 @@ public class UserObject {
 
     int maxRating;
 
-    ArrayList<String> friends;
+    List<String> friends;
 
-    ArrayList<String> clubs;
+    List<String> clubs;
 
-    ArrayList<String> games;
+    List<String> games;
 
-    ArrayList<String> friendsTimeline;
+    List<String> friendsTimeline;
 
     String created;
 
@@ -77,19 +78,19 @@ public class UserObject {
         this.rating = rating;
     }
 
-    public ArrayList<String> getClubs() {
+    public List<String> getClubs() {
         return clubs;
     }
 
-    public void setClubs(ArrayList<String> clubs) {
+    public void setClubs(List<String> clubs) {
         this.clubs = clubs;
     }
 
-    public ArrayList<String> getGames() {
+    public List<String> getGames() {
         return games;
     }
 
-    public void setGames(ArrayList<String> games) {
+    public void setGames(List<String> games) {
         this.games = games;
     }
 
@@ -109,19 +110,19 @@ public class UserObject {
         this.maxRating = maxRating;
     }
 
-    public ArrayList<String> getFriends() {
+    public List<String> getFriends() {
         return friends;
     }
 
-    public void setFriends(ArrayList<String> friends) {
+    public void setFriends(List<String> friends) {
         this.friends = friends;
     }
 
-    public ArrayList<String> getFriendsTimeline() {
+    public List<String> getFriendsTimeline() {
         return friendsTimeline;
     }
 
-    public void setFriendsTimeline(ArrayList<String> friendsTimeline) {
+    public void setFriendsTimeline(List<String> friendsTimeline) {
         this.friendsTimeline = friendsTimeline;
     }
 

@@ -2,6 +2,7 @@ package com.mattikettu.pinkiponki;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -20,9 +21,11 @@ import android.widget.TextView;
 
 import com.mattikettu.pinkiponki.networkapi.CurrentUser;
 import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
+import com.mattikettu.pinkiponki.util.Constants;
 import com.mattikettu.pinkiponki.util.Injector;
 import com.mattikettu.pinkiponki.util.SharedPreferenceManager;
 import com.mattikettu.pinkiponki.util.ToastCreator;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -44,8 +47,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     @Inject
     protected CurrentUser currentUser;
 
-    @Inject
-    protected NetworkLogic NWL;
 
     @BindView(R.id.profile_username)
     TextView profile_username;
@@ -92,19 +93,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         Injector.inject(this);
         ButterKnife.bind(this);
 
-        handler = new Handler(Looper.getMainLooper()){
-            @Override
-            public void handleMessage(Message msg){
-                switch (msg.what){
-                    case 200:
-                        //blabla
-                        break;
-                    default:
-                        failOccurred();
-                }
-            }
-        };
-
         //Username & toolbar icon
         profile_username.setText(sharedPreferenceManager.getCurrentUsername());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -130,8 +118,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             }
         });
 
-        fillTextviews();
-        getProfilePicture();
+        fillViews();
     }
 
     @Override
@@ -173,7 +160,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         return true;
     }
 
-    private void fillTextviews(){
+    private void fillViews(){
         if(currentUser.getFirstName()!=null){
             profile_firstname.setText(currentUser.getFirstName());
         }
@@ -186,13 +173,28 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         if(currentUser.getCreated()!=null){
             profile_created.setText(currentUser.getCreated());
         }
+        Picasso.Builder builder = new Picasso.Builder(getApplicationContext());
+        builder.listener(new Picasso.Listener() {
+            @Override
+            public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+                exception.printStackTrace();
+            }
+        });
+
+        //if(currentUser.getProfilePicture()!=null && !currentUser.getProfilePicture().isEmpty()){
+            Picasso.with(this)
+                    .load("http://i.imgur.com/wqF89Ol.jpg")
+                    .resize(0, profile_img.getMaxHeight())
+                    .into(profile_img);
+            // Constants.basepath + currentUser.getProfilePicture()
+        //}
         if(currentUser.getFriends().size()>0){
             String friends = "";
             for(int i=0; i<currentUser.getFriends().size(); i++){
                 if(i==currentUser.getFriends().size()-1){
                     friends += currentUser.getFriends().get(i) + "";
                 }else{
-                    friends += currentUser.getFriends().get(i) + ", "
+                    friends += currentUser.getFriends().get(i) + ", ";
                 }
             }
             profile_friends.setText("Friends: " + friends);
@@ -203,7 +205,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 if(i==currentUser.getClubs().size()-1){
                     clubs += currentUser.getClubs().get(i) + "";
                 }else{
-                    clubs += currentUser.getClubs().get(i) + ", "
+                    clubs += currentUser.getClubs().get(i) + ", ";
                 }
             }
             profile_clubs.setText("Clubs: " + clubs);
@@ -211,19 +213,5 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         profile_rating.setText(String.valueOf(currentUser.getRating()));
         profile_rating_big.setText(String.valueOf(currentUser.getRating()));
         profile_maxrating.setText(String.valueOf(currentUser.getMaxRating()));
-    }
-
-    private void getProfilePicture(){
-        if(currentUser.getProfilePicture()!=null && !currentUser.getProfilePicture().isEmpty()){
-            NWL.getProfilePicture(currentUser.getProfilePicture(), handler);
-        }
-    }
-
-    private void failOccurred(){
-        if(progressDialog.isShowing()){
-            pdialogMsg = "Acquiring information...";
-            progressDialog.dismiss();
-        }
-        toastCreator.snackbarLong(getCurrentFocus(), "Acquiring info failed.");
     }
 }
