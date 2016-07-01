@@ -96,6 +96,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         //Username & toolbar icon
         profile_username.setText(sharedPreferenceManager.getCurrentUsername());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(" ");
         setSupportActionBar(toolbar);
 
         //Drawer
@@ -161,6 +162,14 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     }
 
     private void fillViews(){
+
+        Picasso.with(this)
+                .load(Constants.basepath + currentUser.getProfilePicture())
+                .error(R.drawable.google_thumb)
+                .placeholder(R.drawable.google_thumb)
+                .fit()
+                .into(profile_img);
+
         if(currentUser.getFirstName()!=null){
             profile_firstname.setText(currentUser.getFirstName());
         }
@@ -173,21 +182,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         if(currentUser.getCreated()!=null){
             profile_created.setText(currentUser.getCreated());
         }
-        Picasso.Builder builder = new Picasso.Builder(getApplicationContext());
-        builder.listener(new Picasso.Listener() {
-            @Override
-            public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                exception.printStackTrace();
-            }
-        });
-
-        //if(currentUser.getProfilePicture()!=null && !currentUser.getProfilePicture().isEmpty()){
-            Picasso.with(this)
-                    .load("http://i.imgur.com/wqF89Ol.jpg")
-                    .resize(0, profile_img.getMaxHeight())
-                    .into(profile_img);
-            // Constants.basepath + currentUser.getProfilePicture()
-        //}
         if(currentUser.getFriends().size()>0){
             String friends = "";
             for(int i=0; i<currentUser.getFriends().size(); i++){

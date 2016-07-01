@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.StrictMode;
 
 import com.mattikettu.pinkiponki.networkapi.CAservice;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by MD on 10/06/2016.
@@ -42,6 +43,12 @@ public class BootstrapApplication extends Application{
 
         // Perform injection
         Injector.init(getRootModule(), this);
+
+        Picasso.Builder builder = new Picasso.Builder(this);
+        Picasso picasso = builder.build();
+        picasso.setLoggingEnabled(true);
+        picasso.setIndicatorsEnabled(true);
+        Picasso.setSingletonInstance(picasso);
 
         startService(new Intent(getApplicationContext(), CAservice.class));
     }

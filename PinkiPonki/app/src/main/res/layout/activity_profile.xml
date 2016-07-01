@@ -19,15 +19,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:id="@+id/toolbar"
-            android:background="@android:color/black"
-            android:titleTextAppearance="@style/Base.TextAppearance.AppCompat.Title"
-            android:theme="@style/ToolbarStyle"
-            android:title="@string/app_name" />
+
 
 
         <RelativeLayout
@@ -252,6 +244,15 @@
             android:tint="@color/white"
             app:layout_anchor="@id/profile_img"
             app:layout_anchorGravity="bottom|end" />
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:id="@+id/toolbar"
+            android:background="@android:color/transparent"
+            android:titleTextColor="@android:color/transparent"
+            android:theme="@style/ToolbarStyle" />
 
     </android.support.design.widget.CoordinatorLayout>
 
