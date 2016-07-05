@@ -81,9 +81,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     @BindView(R.id.profile_img)
     ImageView profile_img;
 
-    private Handler handler;
-    private ProgressDialog progressDialog;
-    private String pdialogMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
