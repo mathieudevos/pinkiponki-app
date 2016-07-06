@@ -60,6 +60,7 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
                 SharedPreferenceManager.class,
                 UsernamesList.class,
                 LocationsList.class,
+                ImageSelector.class,
 
                 //networkapi
                 NetworkLogic.class,
@@ -126,6 +127,10 @@ public class BootstrapModule {
     @Provides
     @Singleton
     LocationsList locationsList(Bus bus){ return new LocationsList(); }
+
+    @Provides
+    @Singleton
+    ImageSelector imageSelector(Bus bus){ return new ImageSelector(); }
     
     //// TODO: 10/06/2016 add databaseHelper (check which db to use) 
 

@@ -27,7 +27,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/profile_img"
+                android:id="@+id/edit_profile_img"
                 android:layout_width="match_parent"
                 android:layout_height="218dp"
                 android:adjustViewBounds="true"
@@ -36,11 +36,12 @@
                 android:scaleType="center"/>
 
             <ImageView
+                android:id="@+id/edit_profile_img_update"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_menu_camera"
                 android:layout_alignParentEnd="true"
-                android:layout_alignBottom="@id/edit_profile_username"
+                android:layout_alignBottom="@+id/edit_profile_username"
                 android:layout_marginEnd="8dp"
                 android:tint="@color/greySemiTrans"/>
 
@@ -100,7 +101,8 @@
                             android:id="@+id/edit_profile_firstname"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textPersonName"/>
+                            android:inputType="textPersonName"
+                            android:hint="First name"/>
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -112,7 +114,8 @@
                             android:id="@+id/edit_profile_lastname"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textPersonName"/>
+                            android:inputType="textPersonName"
+                            android:hint="Last name"/>
                     </android.support.design.widget.TextInputLayout>
 
 
@@ -144,13 +147,20 @@
                     android:background="@color/iron"
                     />
 
-                <TextView
-                    android:id="@+id/edit_profile_about"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="About"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="8dp">
+                    <EditText
+                        android:id="@+id/edit_profile_about"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="textLongMessage"
+                        android:hint="About"/>
+
+                </android.support.design.widget.TextInputLayout>
 
                 <View
                     android:layout_width="match_parent"

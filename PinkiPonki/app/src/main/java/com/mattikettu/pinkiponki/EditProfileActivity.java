@@ -2,6 +2,7 @@ package com.mattikettu.pinkiponki;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +24,8 @@ import com.mattikettu.pinkiponki.networkapi.CurrentUser;
 import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
 import com.mattikettu.pinkiponki.objects.GameObject;
 import com.mattikettu.pinkiponki.objects.UserObject;
+import com.mattikettu.pinkiponki.util.Constants;
+import com.mattikettu.pinkiponki.util.ImageSelector;
 import com.mattikettu.pinkiponki.util.Injector;
 import com.mattikettu.pinkiponki.util.SharedPreferenceManager;
 import com.mattikettu.pinkiponki.util.ToastCreator;
@@ -50,11 +54,44 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
     @Inject
     protected NetworkLogic NWL;
 
-    @BindView(R.id.edit_profile_img)
-    ImageView edit_profile_img;
+    @Inject
+    protected ImageSelector imageSelector;
 
     @BindView(R.id.edit_profile_username)
     TextView edit_profile_username;
+
+    @BindView(R.id.edit_profile_rating_big)
+    TextView edit_profile_rating_big;
+
+    @BindView(R.id.edit_profile_rating)
+    TextView edit_profile_rating;
+
+    @BindView(R.id.edit_profile_maxrating)
+    TextView edit_profile_maxrating;
+
+    @BindView(R.id.edit_profile_firstname)
+    EditText edit_profile_firstname;
+
+    @BindView(R.id.edit_profile_lastname)
+    EditText edit_profile_lastname;
+
+    @BindView(R.id.edit_profile_about)
+    EditText edit_profile_about;
+
+    @BindView(R.id.edit_profile_clubs)
+    TextView edit_profile_clubs;
+
+    @BindView(R.id.edit_profile_friends)
+    TextView edit_profile_friends;
+
+    @BindView(R.id.edit_profile_created)
+    TextView edit_profile_created;
+
+    @BindView(R.id.edit_profile_img)
+    ImageView edit_profile_img;
+
+    @BindView(R.id.edit_profile_img_update)
+    ImageView edit_profile_img_update;
 
     private ProgressDialog progressDialog;
     private Handler handler;
@@ -112,6 +149,13 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
         });
 
         fillViews();
+
+        edit_profile_img_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageSelector.selectImage(getParent(), R.id.edit_profile_img);
+            }
+        });
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -144,12 +188,58 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
     }
 
     private void fillViews(){
+        Picasso.with(this)
+                .load(Constants.basepath + currentUser.getProfilePicture())
+                .error(R.drawable.google_thumb)
+                .placeholder(R.drawable.google_thumb)
+                .fit()
+                .into(edit_profile_img);
 
+        if(currentUser.getFirstName()!=null){
+            edit_profile_firstname.setText(currentUser.getFirstName());
+        }
+        if(currentUser.getLastName()!=null){
+            edit_profile_lastname.setText(currentUser.getLastName());
+        }
+        if(currentUser.getAbout()!=null){
+            edit_profile_about.setText(currentUser.getAbout());
+        }
+        if(currentUser.getCreated()!=null){
+            edit_profile_created.setText(currentUser.getCreated());
+        }
+        if(currentUser.getFriends().size()>0){
+            String friends = "";
+            for(int i=0; i<currentUser.getFriends().size(); i++){
+                if(i==currentUser.getFriends().size()-1){
+                    friends += currentUser.getFriends().get(i) + "";
+                }else{
+                    friends += currentUser.getFriends().get(i) + ", ";
+                }
+            }
+            edit_profile_friends.setText("Friends: " + friends);
+        }
+        if(currentUser.getClubs().size()>0){
+            String clubs = "";
+            for(int i=0; i<currentUser.getClubs().size(); i++){
+                if(i==currentUser.getClubs().size()-1){
+                    clubs += currentUser.getClubs().get(i) + "";
+                }else{
+                    clubs += currentUser.getClubs().get(i) + ", ";
+                }
+            }
+            edit_profile_clubs.setText("Clubs: " + clubs);
+        }
+        edit_profile_rating.setText(String.valueOf(currentUser.getRating()));
+        edit_profile_rating_big.setText(String.valueOf(currentUser.getRating()));
+        edit_profile_maxrating.setText(String.valueOf(currentUser.getMaxRating()));
     }
 
     private UserObject getUserFromFields(){
-        UserObject userObject = new UserObject();
+        UserObject userObject = currentUser;
 
+        userObject.setFirstName(edit_profile_firstname.getText().toString());
+        userObject.setLastName(edit_profile_lastname.getText().toString());
+        userObject.setAbout(edit_profile_about.getText().toString());
 
         return userObject;
     }
