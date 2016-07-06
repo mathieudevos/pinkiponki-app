@@ -252,6 +252,7 @@
             android:id="@+id/toolbar"
             android:background="@android:color/transparent"
             android:titleTextColor="@android:color/transparent"
+            android:title=" "
             android:theme="@style/ToolbarStyle" />
 
     </android.support.design.widget.CoordinatorLayout>

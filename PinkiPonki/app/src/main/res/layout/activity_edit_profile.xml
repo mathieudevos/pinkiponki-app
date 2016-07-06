@@ -35,6 +35,15 @@
                 android:layout_alignParentTop="true"
                 android:scaleType="center"/>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_menu_camera"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@id/edit_profile_username"
+                android:layout_marginEnd="8dp"
+                android:tint="@color/greySemiTrans"/>
+
             <TextView
                 android:id="@+id/edit_profile_rating_big"
                 android:layout_width="wrap_content"
@@ -246,14 +255,13 @@
 
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/profile_fab"
+            android:id="@+id/edit_profile_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_mode_edit_black_24dp"
+            android:src="@drawable/ic_menu_send"
             android:tint="@color/white"
-            app:layout_anchor="@id/profile_img"
-            app:layout_anchorGravity="bottom|end" />
+            android:layout_gravity="bottom|end"/>
 
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
@@ -262,6 +270,7 @@
             android:id="@+id/toolbar"
             android:background="@android:color/transparent"
             android:titleTextColor="@android:color/transparent"
+            android:title=" "
             android:theme="@style/ToolbarStyle" />
 
     </android.support.design.widget.CoordinatorLayout>

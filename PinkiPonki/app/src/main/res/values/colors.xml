@@ -15,6 +15,7 @@
     <color name="white">#FFFFFF</color>
     <color name="red">#F00</color>
     <color name="grey">#777</color>
+    <color name="greySemiTrans">#aa777777</color>
 
 
     <color name="loserRed">#D32F2F</color>
