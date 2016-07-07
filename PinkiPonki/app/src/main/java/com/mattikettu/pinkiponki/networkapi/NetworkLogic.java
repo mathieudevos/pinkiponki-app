@@ -1,5 +1,6 @@
 package com.mattikettu.pinkiponki.networkapi;
 
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
@@ -127,6 +128,34 @@ public class NetworkLogic {
         });
     }
 
+    public void updateProfile(UserObject userObject, final Handler handler){
+        Call<Username> call = apiService.updateProfile(userObject);
+        call.enqueue(new Callback<Username>() {
+            @Override
+            public void onResponse(Call<Username> call, Response<Username> response) {
+                Log.d(TAG, "Responsecode: " + response.code());
+                Message msg;
+                if(response.code()==200){
+                    msg = handler.obtainMessage(response.code(), 0s, 0, response.body());
+                } else {
+                    msg = handler.obtainMessage(response.code());
+                }
+                msg.sendToTarget();
+            }
+
+            @Override
+            public void onFailure(Call<Username> call, Throwable t) {
+                Log.d(TAG, "Failed: " + t.getMessage());
+                Message msg = handler.obtainMessage(0); //0 for errors
+                msg.sendToTarget();
+            }
+        });
+    }
+
+    public void updateProfilePicture(Bitmap bm, final Handler handler){
+
+    }
+
     public void getGames(int amount, final Handler handler){
         Call<List<GameObject>> call = apiService.getGames(amount);
         call.enqueue(new Callback<List<GameObject>>() {
@@ -222,10 +251,6 @@ public class NetworkLogic {
                 msg.sendToTarget();
             }
         });
-    }
-
-    public void getProfilePicture(String profilePictureLink, final Handler handler){
-        //Should I use picasso?!?!
     }
 
 

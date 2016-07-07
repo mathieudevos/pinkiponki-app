@@ -260,4 +260,12 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
         }
         toastCreator.snackbarLong(this.getCurrentFocus(), "Updating user failed.");
     }
+
+    private void updateImageSuccess(){
+
+    }
+
+    private void updateImageFail(){
+
+    }
 }

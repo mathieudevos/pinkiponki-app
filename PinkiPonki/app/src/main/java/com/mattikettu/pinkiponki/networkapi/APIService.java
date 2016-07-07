@@ -31,6 +31,9 @@ public interface APIService {
     @GET("/users/{username}")
     Call<UserObject> getUser(@Path("username") String username);
 
+    @POST("/users")
+    Call<Username> updateProfile(@Body UserObject userObject);
+
     // Usernames
     @GET("/usernames")
     Call<List<String>> getUsernames();

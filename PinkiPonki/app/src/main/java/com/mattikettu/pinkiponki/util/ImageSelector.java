@@ -19,11 +19,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
+
+import javax.inject.Inject;
 
 /**
  * Created by mathieu on 06/07/2016.
  */
 public class ImageSelector extends AppCompatActivity{
+
+    @Inject
+    protected DateTimeUtil DTU;
 
     private static final String TAG = "IMAGESELECTOR";
 
@@ -93,24 +99,11 @@ public class ImageSelector extends AppCompatActivity{
     }
 
     private void onCaptureImageResult(Intent data){
-        Bitmap bm = null;
-        if(data != null){
-            try {
-                bm = MediaStore.Images.Media.getBitmap(context.getContentResolver(), data.getData());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        getImageView().setImageBitmap(bm);
-    }
-
-    @SuppressWarnings("deprecation")
-    private void onSelectFromGalleryResult(Intent data){
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
+        String fileName = "pinkiponki_" + DTU.getCurrentDateTime()  + ".jpg";
+        File destination = new File(Constants.picturepath, fileName);
         FileOutputStream fo;
         try {
             destination.createNewFile();
@@ -123,6 +116,20 @@ public class ImageSelector extends AppCompatActivity{
             e.printStackTrace();
         }
         getImageView().setImageBitmap(thumbnail);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void onSelectFromGalleryResult(Intent data){
+        Bitmap bm = null;
+        if(data != null){
+            try {
+                bm = MediaStore.Images.Media.getBitmap(context.getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        getImageView().setImageBitmap(bm);
+
     }
 
     private ImageView getImageView(){

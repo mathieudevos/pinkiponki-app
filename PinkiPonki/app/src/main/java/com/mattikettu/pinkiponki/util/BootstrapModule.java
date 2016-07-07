@@ -61,6 +61,7 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
                 UsernamesList.class,
                 LocationsList.class,
                 ImageSelector.class,
+                DateTimeUtil.class,
 
                 //networkapi
                 NetworkLogic.class,
@@ -131,6 +132,15 @@ public class BootstrapModule {
     @Provides
     @Singleton
     ImageSelector imageSelector(Bus bus){ return new ImageSelector(); }
+
+    @Provides
+    @Singleton
+    DateTimeUtil dateTimeUtil(Bus bus){ return new DateTimeUtil(); }
+
+    @Provides
+    @Singleton
+    NetworkLogic networkLogic(Bus bus){ return new NetworkLogic(); }
+
     
     //// TODO: 10/06/2016 add databaseHelper (check which db to use) 
 
