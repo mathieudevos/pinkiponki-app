@@ -136,7 +136,7 @@ public class NetworkLogic {
                 Log.d(TAG, "Responsecode: " + response.code());
                 Message msg;
                 if(response.code()==200){
-                    msg = handler.obtainMessage(response.code(), 0s, 0, response.body());
+                    msg = handler.obtainMessage(response.code(), 0, 0, response.body());
                 } else {
                     msg = handler.obtainMessage(response.code());
                 }

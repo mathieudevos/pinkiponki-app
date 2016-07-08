@@ -19,6 +19,8 @@ import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
 import com.mattikettu.pinkiponki.AddGameActivity;
+import com.mattikettu.pinkiponki.LoginActivity;
+import com.mattikettu.pinkiponki.ProfileActivity;
 import com.mattikettu.pinkiponki.R;
 import com.mattikettu.pinkiponki.networkapi.CurrentUser;
 import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
@@ -134,6 +136,8 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
                                 break;
                         }
                         break;
+                    case 401:
+                        unauthorized();
                     default:
                         failOccurred();
                 }
@@ -211,6 +215,16 @@ public class TabHome extends Fragment implements AdapterView.OnItemClickListener
             progressDialog.dismiss();
         }
         toastCreator.snackbarLong(thisView, "Acquiring info failed.");
+    }
+
+    private void unauthorized(){
+        if(progressDialog.isShowing()){
+            pdialogMsg = "Acquiring information...";
+            progressDialog.dismiss();
+        }
+        sharedPreferenceManager.hardReset();
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
     }
 
     private void updateForGames(List<GameObject> games){

@@ -29,6 +29,7 @@ import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.google.gson.Gson;
 import com.mattikettu.pinkiponki.AddGameActivity;
+import com.mattikettu.pinkiponki.EditProfileActivity;
 import com.mattikettu.pinkiponki.LoginActivity;
 import com.mattikettu.pinkiponki.ProfileActivity;
 import com.mattikettu.pinkiponki.RegisterActivity;
@@ -60,7 +61,6 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
                 SharedPreferenceManager.class,
                 UsernamesList.class,
                 LocationsList.class,
-                ImageSelector.class,
                 DateTimeUtil.class,
 
                 //networkapi
@@ -74,7 +74,8 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
                 RegisterActivity.class,
                 WelcomeActivity.class,
                 AddGameActivity.class,
-                ProfileActivity.class
+                ProfileActivity.class,
+                EditProfileActivity.class
         }
 )
 
@@ -128,10 +129,6 @@ public class BootstrapModule {
     @Provides
     @Singleton
     LocationsList locationsList(Bus bus){ return new LocationsList(); }
-
-    @Provides
-    @Singleton
-    ImageSelector imageSelector(Bus bus){ return new ImageSelector(); }
 
     @Provides
     @Singleton
