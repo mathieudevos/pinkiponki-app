@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.mattikettu.pinkiponki.networkapi.CurrentUser;
 import com.mattikettu.pinkiponki.ui.SlidingTabLayout;
 import com.mattikettu.pinkiponki.ui.ImagePagerAdapter;
+import com.mattikettu.pinkiponki.util.Constants;
 import com.mattikettu.pinkiponki.util.Injector;
 import com.mattikettu.pinkiponki.util.SharedPreferenceManager;
 import com.mattikettu.pinkiponki.util.ToastCreator;
@@ -56,7 +57,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         // Code from here on assumes login
-
+        if(!Constants.picturepath.exists()){
+            Constants.picturepath.mkdir();
+        }
 
         setContentView(R.layout.base_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

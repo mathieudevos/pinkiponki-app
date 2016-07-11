@@ -9,7 +9,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -55,6 +57,8 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
 
     private static final String TAG = "EDITPROFILEACTIVYT";
 
+    private File destination;
+
     @Inject
     protected ToastCreator toastCreator;
 
@@ -74,6 +78,8 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
 
     private final int REQUEST_CAMERA = 601;
     private final int SELECT_FILE = 602;
+
+    private AlertDialog imageDialog;
 
     @BindView(R.id.edit_profile_username)
     TextView edit_profile_username;
@@ -313,11 +319,9 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
             public void onClick(DialogInterface dialog, int item) {
                 if(checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_ASK_CAMERA);
-                    return;
                 }
                 if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_CAMERA);
-                    return;
                 }
                 if(item == 0){
                     cameraIntent();
@@ -328,10 +332,16 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
                 }
             }
         });
+        builder.show();
     }
 
     private void cameraIntent(){
+        String fileName = "pinkiponki_" + DTU.getCurrentDateTime()  + ".jpg";
+        destination = new File(Constants.picturepath, fileName);
+        Uri uri = Uri.fromFile(destination);
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
@@ -344,34 +354,32 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK){
             if(requestCode == REQUEST_CAMERA){
-                onCaptureImageResult(data);
+                onCaptureImageResult();
             }else if(requestCode == SELECT_FILE){
                 onSelectFromGalleryResult(data);
             }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void onCaptureImageResult(Intent data){
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        String fileName = "pinkiponki_" + DTU.getCurrentDateTime()  + ".jpg";
-        File destination = new File(Constants.picturepath, fileName);
-        FileOutputStream fo;
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void onCaptureImageResult(){
+        Bitmap bm = null;
+        if(destination.exists()){
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(destination));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        edit_profile_img.setImageBitmap(thumbnail);
+        int originalHeight = bm.getHeight();
+        int originalWidth = bm.getWidth();
+        float factor = (1090f/(float) originalHeight);
+
+
+        bm = Bitmap.createScaledBitmap(bm,(int) (originalWidth*factor), 1090, false);
+        edit_profile_img.setImageBitmap(bm);
     }
 
     @SuppressWarnings("deprecation")

@@ -11,6 +11,8 @@
     android:orientation="vertical"
     tools:openDrawer="start">
 
+
+
     <!-- This is the actual application xml -->
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -20,7 +22,9 @@
         android:fitsSystemWindows="true">
 
 
-
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -28,6 +32,7 @@
 
             <ImageView
                 android:id="@+id/edit_profile_img"
+                android:background="@color/grey"
                 android:layout_width="match_parent"
                 android:layout_height="218dp"
                 android:adjustViewBounds="true"
@@ -263,6 +268,8 @@
 
         </RelativeLayout>
 
+        </ScrollView>
+
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/edit_profile_fab"
@@ -284,6 +291,8 @@
             android:theme="@style/ToolbarStyle" />
 
     </android.support.design.widget.CoordinatorLayout>
+
+
 
 
 
