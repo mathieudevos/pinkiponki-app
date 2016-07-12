@@ -55,7 +55,6 @@ public interface APIService {
     @POST("/games")
     Call<GameObject> postGame(@Body GameObject gameObject);
 
-    @Multipart
     @POST("/upload/profile")
     Call<Message> updateProfilePicture(@Part("file")RequestBody file);
 }
