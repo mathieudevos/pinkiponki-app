@@ -7,6 +7,7 @@ import com.mattikettu.pinkiponki.objects.*;
 
 import java.util.List;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.http.*;
@@ -53,4 +54,8 @@ public interface APIService {
     // Game related
     @POST("/games")
     Call<GameObject> postGame(@Body GameObject gameObject);
+
+    @Multipart
+    @POST("/upload/profile")
+    Call<Message> updateProfilePicture(@Part("file")RequestBody file);
 }

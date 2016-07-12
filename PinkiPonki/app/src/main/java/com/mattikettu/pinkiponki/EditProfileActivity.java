@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Handler;
@@ -80,6 +81,8 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
     private final int SELECT_FILE = 602;
 
     private AlertDialog imageDialog;
+
+    private boolean updateProfilePicture = false;
 
     @BindView(R.id.edit_profile_username)
     TextView edit_profile_username;
@@ -270,6 +273,9 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
         progressDialog.setMessage("Updating profile...");
         progressDialog.show();
         NWL.updateProfile(getUserFromFields(), handler);
+        if(updateProfilePicture){
+            NWL.updateProfilePicture(((BitmapDrawable) edit_profile_img.getDrawable()).getBitmap(), handler);
+        }
     }
 
     private UserObject getUserFromFields(){
@@ -283,13 +289,18 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
     }
 
     private void updateUserSuccess(){
-        if(progressDialog.isShowing()){
+        if(progressDialog.isShowing() && !updateProfilePicture){
             progressDialog.dismiss();
         }
         toastCreator.showToastLong("Updating user successful.");
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
         this.finish();
+    }
+
+    private void updateImageSuccess(){
+        updateProfilePicture = false;
+        updateUserSuccess();
     }
 
     private void failOccurred(){
@@ -299,17 +310,9 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
         toastCreator.snackbarLong(this.getCurrentFocus(), "Updating user/image failed.");
     }
 
-    private void updateImageSuccess(){
-        if(progressDialog.isShowing()){
-            progressDialog.dismiss();
-        }
-        toastCreator.showToastLong("Updating picture successful.");
-        Intent intent = new Intent(this, ProfileActivity.class);
-        startActivity(intent);
-        this.finish();
-    }
 
     //Everything to select / upload the image
+    //// TODO: 12/07/2016 : update handling on proper image sizing.
     private void selectImage(){
         final CharSequence[] items = {"Take photo", "From gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -361,6 +364,8 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
                 onSelectFromGalleryResult(data);
             }
         }
+        updateProfilePicture = true;
+        toastCreator.snackbarLong(getCurrentFocus(), "Update profile to submit image.");
         super.onActivityResult(requestCode, resultCode, data);
     }
 

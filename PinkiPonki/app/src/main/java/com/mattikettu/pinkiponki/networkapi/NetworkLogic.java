@@ -1,5 +1,6 @@
 package com.mattikettu.pinkiponki.networkapi;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
@@ -13,12 +14,18 @@ import com.mattikettu.pinkiponki.objects.UserObject;
 import com.mattikettu.pinkiponki.objects.Username;
 import com.mattikettu.pinkiponki.util.Injector;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,6 +42,8 @@ public class NetworkLogic {
     protected APIService apiService;
     @Inject
     protected CurrentUser currentUser;
+    @Inject
+    protected Context appContext;
 
     public NetworkLogic(){
         Log.d(TAG, TAG + "created, use as Singleton");
@@ -153,7 +162,42 @@ public class NetworkLogic {
     }
 
     public void updateProfilePicture(Bitmap bm, final Handler handler){
+        File file = new File(appContext.getCacheDir(), "temp_updateProfilePictureBM");
+        try {
+            file.createNewFile();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            byte[] bmdata = bos.toByteArray();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bmdata);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        RequestBody rbody = RequestBody.create(MediaType.parse("image/*"), file);
 
+        Call<com.mattikettu.pinkiponki.objects.Message> call = apiService.updateProfilePicture(rbody);
+        call.enqueue(new Callback<com.mattikettu.pinkiponki.objects.Message>() {
+            @Override
+            public void onResponse(Call<com.mattikettu.pinkiponki.objects.Message> call, Response<com.mattikettu.pinkiponki.objects.Message> response) {
+                Log.d(TAG, "Responsecode: " + response.code());
+                Message msg;
+                if(response.code()==200){
+                    msg = handler.obtainMessage(response.code(), 1, 0, response.body());
+                } else {
+                    msg = handler.obtainMessage(response.code());
+                }
+                msg.sendToTarget();
+            }
+
+            @Override
+            public void onFailure(Call<com.mattikettu.pinkiponki.objects.Message> call, Throwable t) {
+                Log.d(TAG, "Failed: " + t.getMessage());
+                Message msg = handler.obtainMessage(0); //0 for errors
+                msg.sendToTarget();
+            }
+        });
     }
 
     public void getGames(int amount, final Handler handler){
