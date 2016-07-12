@@ -25,10 +25,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Multipart;
 
 /**
  * Created by mathieu on 10/06/2016.
@@ -175,9 +177,12 @@ public class NetworkLogic {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        RequestBody rbody = RequestBody.create(MediaType.parse("image/*"), file);
 
-        Call<com.mattikettu.pinkiponki.objects.Message> call = apiService.updateProfilePicture(rbody);
+
+        RequestBody rbody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part imageBody = MultipartBody.Part.createFormData("image", file.getName(), rbody);
+
+        Call<com.mattikettu.pinkiponki.objects.Message> call = apiService.updateProfilePicture(imageBody);
         call.enqueue(new Callback<com.mattikettu.pinkiponki.objects.Message>() {
             @Override
             public void onResponse(Call<com.mattikettu.pinkiponki.objects.Message> call, Response<com.mattikettu.pinkiponki.objects.Message> response) {
