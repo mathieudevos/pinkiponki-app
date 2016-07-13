@@ -84,6 +84,8 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
 
     private boolean updateProfilePicture = false;
 
+    private String picturename = null;
+
     @BindView(R.id.edit_profile_username)
     TextView edit_profile_username;
 
@@ -138,7 +140,7 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
                 switch (msg.what){
                     case 200:
                         if(msg.arg1==0){
-                            updateUserSuccess();
+                            updateSuccess();
                         }
                         if(msg.arg1==1){
                             updateImageSuccess();
@@ -274,7 +276,7 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
         progressDialog.show();
         NWL.updateProfile(getUserFromFields(), handler);
         if(updateProfilePicture){
-            NWL.updateProfilePicture(((BitmapDrawable) edit_profile_img.getDrawable()).getBitmap(), handler);
+            NWL.updateProfilePicture(picturename, ((BitmapDrawable) edit_profile_img.getDrawable()).getBitmap(), handler);
         }
     }
 
@@ -288,19 +290,21 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
         return userObject;
     }
 
-    private void updateUserSuccess(){
-        if(progressDialog.isShowing() && !updateProfilePicture){
-            progressDialog.dismiss();
+    private void updateSuccess(){
+        if(!updateProfilePicture){
+            if(progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
+            toastCreator.showToastLong("Updating user successful.");
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
+            this.finish();
         }
-        toastCreator.showToastLong("Updating user successful.");
-        Intent intent = new Intent(this, ProfileActivity.class);
-        startActivity(intent);
-        this.finish();
     }
 
     private void updateImageSuccess(){
         updateProfilePicture = false;
-        updateUserSuccess();
+        updateSuccess();
     }
 
     private void failOccurred(){
@@ -345,6 +349,7 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        picturename = fileName;
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
@@ -398,6 +403,8 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
             }
         }
         edit_profile_img.setImageBitmap(bm);
-
+        if(picturename==null){
+            picturename = "pinkiponki_" + DTU.getCurrentDateTime()  + ".jpg";
+        }
     }
 }

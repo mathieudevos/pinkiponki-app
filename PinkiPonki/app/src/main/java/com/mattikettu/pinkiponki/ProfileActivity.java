@@ -161,7 +161,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     private void fillViews(){
 
         Picasso.with(this)
-                .load(Constants.basepath + currentUser.getProfilePicture())
+                .load(Constants.basepath + "/uploads/profile/" + currentUser.getUsername())
                 .error(R.drawable.google_thumb)
                 .placeholder(R.drawable.google_thumb)
                 .fit()

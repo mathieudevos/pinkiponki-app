@@ -56,8 +56,5 @@ public interface APIService {
     @POST("/games")
     Call<GameObject> postGame(@Body GameObject gameObject);
 
-    @Headers("Content-type: multipart/form-data")
-    @Multipart
-    @POST("/upload/profile")
-    Call<Message> updateProfilePicture(@Part MultipartBody.Part file);
+
 }

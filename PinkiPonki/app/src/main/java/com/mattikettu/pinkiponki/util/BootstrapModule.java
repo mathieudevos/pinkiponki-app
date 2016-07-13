@@ -34,6 +34,7 @@ import com.mattikettu.pinkiponki.LoginActivity;
 import com.mattikettu.pinkiponki.ProfileActivity;
 import com.mattikettu.pinkiponki.RegisterActivity;
 import com.mattikettu.pinkiponki.WelcomeActivity;
+import com.mattikettu.pinkiponki.networkapi.APIFileService;
 import com.mattikettu.pinkiponki.networkapi.APIService;
 import com.mattikettu.pinkiponki.ui.SelectPlayerDialog;
 import com.mattikettu.pinkiponki.ui.tabs.TabHome;
@@ -108,6 +109,28 @@ public class BootstrapModule {
                 .build();
 
         return retrofit.create(APIService.class);
+    }
+
+    @Provides
+    @Singleton
+    APIFileService provideAPIFileService(Context context){
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        CookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .cookieJar(cookieJar)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.basepath)
+                .client(okHttpClient)
+                .callbackExecutor(executor)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        return retrofit.create(APIFileService.class);
+
     }
 
     @Provides

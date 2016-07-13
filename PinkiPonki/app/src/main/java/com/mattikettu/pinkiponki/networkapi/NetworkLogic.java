@@ -43,6 +43,8 @@ public class NetworkLogic {
     @Inject
     protected APIService apiService;
     @Inject
+    protected APIFileService apiFileService;
+    @Inject
     protected CurrentUser currentUser;
     @Inject
     protected Context appContext;
@@ -163,8 +165,8 @@ public class NetworkLogic {
         });
     }
 
-    public void updateProfilePicture(Bitmap bm, final Handler handler){
-        File file = new File(appContext.getCacheDir(), "temp_updateProfilePictureBM");
+    public void updateProfilePicture(String filename, Bitmap bm, final Handler handler){
+        File file = new File(appContext.getCacheDir(), filename);
         try {
             file.createNewFile();
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -178,11 +180,12 @@ public class NetworkLogic {
             e.printStackTrace();
         }
 
+        RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"), "Profile picture: " + filename);
 
         RequestBody rbody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part imageBody = MultipartBody.Part.createFormData("image", file.getName(), rbody);
 
-        Call<com.mattikettu.pinkiponki.objects.Message> call = apiService.updateProfilePicture(imageBody);
+        Call<com.mattikettu.pinkiponki.objects.Message> call = apiFileService.updateProfilePicture(description, imageBody);
         call.enqueue(new Callback<com.mattikettu.pinkiponki.objects.Message>() {
             @Override
             public void onResponse(Call<com.mattikettu.pinkiponki.objects.Message> call, Response<com.mattikettu.pinkiponki.objects.Message> response) {
