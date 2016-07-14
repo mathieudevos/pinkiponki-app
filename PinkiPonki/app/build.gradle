@@ -22,6 +22,9 @@ android {
     productFlavors {
     }
 }
+repositories {
+    mavenCentral()
+}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -42,5 +45,6 @@ dependencies {
     compile 'com.github.franmontiel:PersistentCookieJar:v0.9.3'
     compile 'com.jakewharton:butterknife:8.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.edmodo:cropper:2.0.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
 }

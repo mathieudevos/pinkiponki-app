@@ -36,6 +36,7 @@ import com.mattikettu.pinkiponki.RegisterActivity;
 import com.mattikettu.pinkiponki.WelcomeActivity;
 import com.mattikettu.pinkiponki.networkapi.APIFileService;
 import com.mattikettu.pinkiponki.networkapi.APIService;
+import com.mattikettu.pinkiponki.ui.ImageCropperActivity;
 import com.mattikettu.pinkiponki.ui.SelectPlayerDialog;
 import com.mattikettu.pinkiponki.ui.tabs.TabHome;
 import com.squareup.otto.Bus;
@@ -55,6 +56,7 @@ import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
                 //ui
                 TabHome.class,
                 SelectPlayerDialog.class,
+                ImageCropperActivity.class,
 
                 //util
                 BootstrapApplication.class,

@@ -36,9 +36,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="218dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/google_thumb"
                 android:layout_alignParentTop="true"
-                android:scaleType="center"/>
+                android:scaleType="fitXY"/>
 
             <ImageView
                 android:id="@+id/edit_profile_img_update"

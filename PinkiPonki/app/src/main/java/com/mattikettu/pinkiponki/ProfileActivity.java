@@ -25,6 +25,8 @@ import com.mattikettu.pinkiponki.util.Constants;
 import com.mattikettu.pinkiponki.util.Injector;
 import com.mattikettu.pinkiponki.util.SharedPreferenceManager;
 import com.mattikettu.pinkiponki.util.ToastCreator;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -116,6 +118,12 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             }
         });
 
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
         fillViews();
     }
 
@@ -165,6 +173,8 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 .error(R.drawable.google_thumb)
                 .placeholder(R.drawable.google_thumb)
                 .fit()
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .into(profile_img);
 
         if(currentUser.getFirstName()!=null){

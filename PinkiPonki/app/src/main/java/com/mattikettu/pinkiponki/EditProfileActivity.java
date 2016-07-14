@@ -25,6 +25,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -35,11 +36,14 @@ import com.mattikettu.pinkiponki.networkapi.CurrentUser;
 import com.mattikettu.pinkiponki.networkapi.NetworkLogic;
 import com.mattikettu.pinkiponki.objects.GameObject;
 import com.mattikettu.pinkiponki.objects.UserObject;
+import com.mattikettu.pinkiponki.ui.ImageCropperActivity;
 import com.mattikettu.pinkiponki.util.Constants;
 import com.mattikettu.pinkiponki.util.DateTimeUtil;
 import com.mattikettu.pinkiponki.util.Injector;
 import com.mattikettu.pinkiponki.util.SharedPreferenceManager;
 import com.mattikettu.pinkiponki.util.ToastCreator;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -58,7 +62,6 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
 
     private static final String TAG = "EDITPROFILEACTIVYT";
 
-    private File destination;
 
     @Inject
     protected ToastCreator toastCreator;
@@ -74,13 +77,6 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
 
     @Inject
     protected DateTimeUtil DTU;
-
-    private final int REQUEST_CODE_ASK_CAMERA = 666;
-
-    private final int REQUEST_CAMERA = 601;
-    private final int SELECT_FILE = 602;
-
-    private AlertDialog imageDialog;
 
     private boolean updateProfilePicture = false;
 
@@ -182,15 +178,38 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
         edit_profile_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toastCreator.showToastLong("Blaaaaah");
+                Intent intent = new Intent(getApplicationContext(), ImageCropperActivity.class);
+                intent.putExtra("originActivity", 901);
+                startActivity(intent);
             }
         });
-        edit_profile_img_update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectImage();
-            }
-        });
+    }
+
+    @Override
+    protected void onResume(){
+        Log.d(TAG, "onResume called.");
+
+        //final step before a running activity, check extra from inten to see if we got a bitmap from cropped shizznits.
+        if(getIntent().hasExtra("image")){
+            Log.d(TAG, "We have an image in extra intent!");
+            byte[] bytes = getIntent().getByteArrayExtra("image");
+            Bitmap bm = BitmapFactory.decodeByteArray(bytes, 0 , bytes.length);
+            edit_profile_img.setImageBitmap(bm);
+            picturename = getIntent().getStringExtra("imagename");
+            toastCreator.showToastShort("Image name: " + picturename);
+            updateProfilePicture = true;
+        }else{
+            Log.d(TAG, "No intent, just putting the base value");
+            Picasso.with(this)
+                    .load(Constants.basepath + "/uploads/profile/" + currentUser.getUsername())
+                    .error(R.drawable.google_thumb)
+                    .placeholder(R.drawable.google_thumb)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
+                    .fit()
+                    .into(edit_profile_img);
+        }
+        super.onResume();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -223,13 +242,6 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
     }
 
     private void fillViews(){
-        Picasso.with(this)
-                .load(Constants.basepath + currentUser.getProfilePicture())
-                .error(R.drawable.google_thumb)
-                .placeholder(R.drawable.google_thumb)
-                .fit()
-                .into(edit_profile_img);
-
         if(currentUser.getFirstName()!=null){
             edit_profile_firstname.setText(currentUser.getFirstName());
         }
@@ -312,99 +324,5 @@ public class EditProfileActivity extends AppCompatActivity implements Navigation
             progressDialog.dismiss();
         }
         toastCreator.snackbarLong(this.getCurrentFocus(), "Updating user/image failed.");
-    }
-
-
-    //Everything to select / upload the image
-    //// TODO: 12/07/2016 : update handling on proper image sizing.
-    private void selectImage(){
-        final CharSequence[] items = {"Take photo", "From gallery", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add image");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if(checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_ASK_CAMERA);
-                }
-                if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_CAMERA);
-                }
-                if(item == 0){
-                    cameraIntent();
-                } else if(item == 1){
-                    galleryIntent();
-                } else {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-    private void cameraIntent(){
-        String fileName = "pinkiponki_" + DTU.getCurrentDateTime()  + ".jpg";
-        destination = new File(Constants.picturepath, fileName);
-        Uri uri = Uri.fromFile(destination);
-
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        picturename = fileName;
-        startActivityForResult(intent, REQUEST_CAMERA);
-    }
-
-    private void galleryIntent(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select file"), SELECT_FILE);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode == REQUEST_CAMERA){
-                onCaptureImageResult();
-            }else if(requestCode == SELECT_FILE){
-                onSelectFromGalleryResult(data);
-            }
-        }
-        updateProfilePicture = true;
-        toastCreator.snackbarLong(getCurrentFocus(), "Update profile to submit image.");
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void onCaptureImageResult(){
-        Bitmap bm = null;
-        if(destination.exists()){
-            try {
-                bm = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(destination));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        int originalHeight = bm.getHeight();
-        int originalWidth = bm.getWidth();
-        float factor = (1090f/(float) originalHeight);
-
-
-        bm = Bitmap.createScaledBitmap(bm,(int) (originalWidth*factor), 1090, false);
-        edit_profile_img.setImageBitmap(bm);
-    }
-
-    @SuppressWarnings("deprecation")
-    private void onSelectFromGalleryResult(Intent data){
-        Bitmap bm = null;
-        if(data != null){
-            try {
-                bm = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        edit_profile_img.setImageBitmap(bm);
-        if(picturename==null){
-            picturename = "pinkiponki_" + DTU.getCurrentDateTime()  + ".jpg";
-        }
     }
 }
